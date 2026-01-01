@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Directions | Portfolio Scenario Modeler</title>
+    <style>
+        :root {
+            --color-primary: #1976D2; /* Deep Blue */
+            --color-secondary: #4CAF50; /* Muted Green */
+            --color-accent: #B0BEC5;   /* Light Grey/Silver */
+            --color-text-primary: #212121;
+            --color-text-secondary: #5f6368;
+            --color-background: #f5f7fa;
+            --color-surface: #ffffff;
+            --color-border: #e0e0e0;
+            --color-error: #d32f2f;
+            --color-warning: #ffa000;
+
+            --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            --spacing-base: 8px;
+            --border-radius: 4px;
+            --box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--color-background);
+            margin: 0;
+            padding: 0;
+            color: var(--color-text-primary);
+            line-height: 1.6;
+        }
+        .main-header {
+            background-color: var(--color-primary);
+            color: white;
+            padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 4);
+            text-align: center;
+            box-shadow: var(--box-shadow);
+        }
+        .main-header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .main-header p {
+            margin: var(--spacing-base) 0 0;
+            opacity: 0.9;
+        }
+        .container {
+            padding: calc(var(--spacing-base) * 4);
+        }
+        .direction {
+            background-color: var(--color-surface);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: calc(var(--spacing-base) * 4);
+        }
+        .direction-header {
+            padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 3);
+            border-bottom: 1px solid var(--color-border);
+        }
+        .direction-header h2 {
+            font-size: 20px;
+            margin: 0;
+        }
+        .direction-header p {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            margin: 4px 0 0;
+        }
+        .direction-body {
+            padding: calc(var(--spacing-base) * 3);
+        }
+        /* Generic Component Styles */
+        .mock-button {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            border: none;
+            font-size: 14px;
+        }
+        .mock-button-primary {
+            background-color: var(--color-primary);
+            color: white;
+        }
+        .mock-button-secondary {
+            background-color: var(--color-surface);
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+        }
+        .mock-card {
+            background: var(--color-surface);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--color-border);
+            padding: 16px;
+        }
+        .mock-slider {
+            width: 100%;
+            height: 4px;
+            background: var(--color-accent);
+            border-radius: 2px;
+            position: relative;
+            margin-top: 24px;
+        }
+        .mock-slider-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px var(--color-primary);
+        }
+        /* Chart Placeholder */
+        .mock-chart {
+            background-color: #f9f9f9;
+            border: 1px dashed var(--color-border);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-secondary);
+            font-size: 14px;
+        }
+
+        /* --- Direction Specific Styles --- */
+
+        /* Direction 1: Classic Professional */
+        .dir1-body { display: grid; grid-template-columns: 220px 1fr; gap: 24px; }
+        .dir1-sidebar { background-color: #e8f0f8; border-right: 1px solid var(--color-border); padding: 16px; }
+        .dir1-sidebar h3 { font-size: 16px; margin-top: 0; }
+        .dir1-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .dir1-sidebar li { padding: 12px; border-radius: var(--border-radius); cursor: pointer; font-weight: 500; }
+        .dir1-sidebar li.active { background-color: var(--color-primary); color: white; }
+        .dir1-main { padding: 24px; background: white; }
+        .dir1-main-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 16px; margin-bottom: 24px; }
+        .dir1-main-header h1 { font-size: 22px; }
+        .dir1-split-view { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+        /* Direction 2: Modern & Focused */
+        .dir2-body { display: flex; flex-direction: column; }
+        .dir2-appbar { background: var(--color-surface); padding: 12px 24px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; justify-content: space-between; box-shadow: var(--box-shadow); }
+        .dir2-appbar .logo { font-size: 20px; font-weight: bold; color: var(--color-primary); }
+        .dir2-appbar nav a { margin: 0 12px; text-decoration: none; color: var(--color-text-secondary); font-weight: 500; }
+        .dir2-appbar nav a.active { color: var(--color-primary); }
+        .dir2-content { flex-grow: 1; padding: 32px; }
+        .dir2-card { border: none; box-shadow: var(--box-shadow); border-radius: 8px; }
+        .dir2-split-view { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+        .dir2-recalc-button { text-align: center; margin-top: 24px; }
+
+        /* Direction 3: Data-Dense / "Advisor-Grade" */
+        .dir3-body { background: #fafafa; display: flex; flex-direction: column; }
+        .dir3-header { background: white; padding: 16px; border-bottom: 1px solid var(--color-border); }
+        .dir3-header h1 { font-size: 18px; margin: 0; }
+        .dir3-content { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 16px; padding: 16px; flex-grow: 1; }
+        .dir3-col h3 { font-size: 14px; text-transform: uppercase; color: var(--color-text-secondary); margin: 0 0 12px 0; }
+        .dir3-card { padding: 12px; }
+        .dir3-card .value { font-size: 20px; font-weight: 500; }
+        .dir3-card .label { font-size: 12px; color: var(--color-text-secondary); }
+        .dir3-chart { height: 150px; }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <h1>Design Directions</h1>
+        <p>Portfolio Scenario Modeler</p>
+    </header>
+
+    <div class="container">
+        <!-- Direction 1: Classic Professional -->
+        <div class="direction">
+            <div class="direction-header">
+                <h2>Direction 1: Classic Professional</h2>
+                <p>A standard, trustworthy layout with a dedicated sidebar for navigation. Clear separation between controls and content. This approach prioritizes familiarity and clarity.</p>
+            </div>
+            <div class="direction-body dir1-body">
+                <div class="dir1-sidebar">
+                    <h3>Fidelity IRA</h3>
+                    <ul>
+                        <li class="active">Dashboard</li>
+                        <li>Stress Test</li>
+                        <li>Allocation</li>
+                        <li>Action Plan</li>
+                        <li>Settings</li>
+                    </ul>
+                </div>
+                <div class="dir1-main">
+                    <div class="dir1-main-header">
+                        <h1>Stress Test</h1>
+                        <button class="mock-button mock-button-primary">Generate Action Plan</button>
+                    </div>
+                    <div class="dir1-split-view">
+                        <div class="mock-card">
+                            <h4>Current Portfolio</h4>
+                            <div class="mock-chart" style="height: 200px;">
+                                <svg width="150" height="150" viewBox="0 0 36 36"><path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15'9155 0 0 1 0 -31.831" fill="none" stroke="#B0BEC5" stroke-width="3"/><path d="M18 2.0845 a 15.9155 15.9155 0 0 1 15.1 24.3" fill="none" stroke="#1976D2" stroke-width="3" stroke-dasharray="60, 100"/></svg>
+                            </div>
+                            <div>Tech: 60%</div>
+                            <div class="mock-slider"><div class="mock-slider-thumb" style="left: 60%;"></div></div>
+                            <div>Bonds: 40%</div>
+                            <div class="mock-slider"><div class="mock-slider-thumb" style="left: 40%;"></div></div>
+                        </div>
+                        <div class="mock-card">
+                            <h4>Proposed Portfolio</h4>
+                            <div class="mock-chart" style="height: 200px;">
+                                <svg width="150" height="150" viewBox="0 0 36 36"><path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#B0BEC5" stroke-width="3"/><path d="M18 2.0845 a 15.9155 15.9155 0 0 1 15.9 15.9" fill="none" stroke="#4CAF50" stroke-width="3" stroke-dasharray="50, 100"/></svg>
+                            </div>
+                            <div>Tech: 50%</div>
+                            <div class="mock-slider"><div class="mock-slider-thumb" style="left: 50%;"></div></div>
+                            <div>Bonds: 50%</div>
+                            <div class="mock-slider"><div class="mock-slider-thumb" style="left: 50%;"></div></div>
+                        </div>
+                    </div>
+                     <div class="dir2-recalc-button" style="margin-top: 24px;">
+                        <button class="mock-button mock-button-secondary">Recalculate Scenarios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Direction 2: Modern & Focused -->
+        <div class="direction">
+            <div class="direction-header">
+                <h2>Direction 2: Modern & Focused</h2>
+                <p>A top app bar provides a cleaner, more spacious canvas. This "web app" feel prioritizes content. Uses slightly more modern styling (e.g., shadows, rounded cards).</p>
+            </div>
+            <div class="direction-body dir2-body">
+                <div class="dir2-appbar">
+                    <div class="logo">MODELER</div>
+                    <nav>
+                        <a href="#">Dashboard</a>
+                        <a href="#" class="active">Stress Test</a>
+                        <a href="#">Action Plan</a>
+                    </nav>
+                    <div><button class="mock-button mock-button-primary">Generate Plan</button></div>
+                </div>
+                <div class="dir2-content">
+                    <div class="dir2-split-view">
+                        <div class="mock-card dir2-card">
+                             <h4>Current Portfolio</h4>
+                             <p style="color: var(--color-text-secondary); font-size:14px;">Scenario: 2008 Crash<br>Max Drawdown: <span style="color:var(--color-error); font-weight:bold;">-35%</span></p>
+                            <div class="mock-chart" style="height: 200px;">
+                                <svg width="150" height="150" viewBox="0 0 36 36"><path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e0e0e0" stroke-width="2"/><path d="M18 2.0845 a 15.9155 15.9155 0 0 1 15.1 24.3" fill="none" stroke="#d32f2f" stroke-width="4" stroke-dasharray="60, 100"/></svg>
+                            </div>
+                        </div>
+                        <div class="mock-card dir2-card">
+                            <h4>Proposed Portfolio</h4>
+                            <p style="color: var(--color-text-secondary); font-size:14px;">Scenario: 2008 Crash<br>Max Drawdown: <span style="color:var(--color-secondary); font-weight:bold;">-15%</span></p>
+                             <div class="mock-chart" style="height: 200px;">
+                                <svg width="150" height="150" viewBox="0 0 36 36"><path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e0e0e0" stroke-width="2"/><path d="M18 2.0845 a 15.9155 15.9155_ 0 0 1 15.9 15.9" fill="none" stroke="#4CAF50" stroke-width="4" stroke-dasharray="50, 100"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dir2-recalc-button">
+                        <button class="mock-button mock-button-secondary">Recalculate Scenarios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Direction 3: Data-Dense / "Advisor-Grade" -->
+        <div class="direction">
+            <div class="direction-header">
+                <h2>Direction 3: Data-Dense / "Advisor-Grade"</h2>
+                <p>Inspired by Empower, this layout prioritizes information density. Uses multiple columns to show allocation, key metrics, and results at a glance. Feels serious and powerful.</p>
+            </div>
+            <div class="direction-body dir3-body">
+                <div class="dir3-header">
+                    <h1>Fidelity IRA Analysis</h1>
+                </div>
+                <div class="dir3-content">
+                    <div class="dir3-col">
+                        <h3>Allocation Adjuster</h3>
+                        <div class="mock-card dir3-card" style="margin-bottom: 16px;">
+                            <label>US Stocks</label>
+                             <div class="mock-slider"><div class="mock-slider-thumb" style="left: 45%;"></div></div>
+                        </div>
+                        <div class="mock-card dir3-card" style="margin-bottom: 16px;">
+                            <label>Int'l Stocks</label>
+                             <div class="mock-slider"><div class="mock-slider-thumb" style="left: 20%;"></div></div>
+                        </div>
+                        <div class="mock-card dir3-card">
+                            <label>Bonds</label>
+                             <div class="mock-slider"><div class="mock-slider-thumb" style="left: 35%;"></div></div>
+                        </div>
+                        <div style="margin-top: 24px;">
+                             <button class="mock-button mock-button-secondary" style="width: 100%;">Recalculate</button>
+                        </div>
+                    </div>
+                    <div class="dir3-col">
+                        <h3>Scenario Results</h3>
+                        <div class="mock-card dir3-card">
+                            <h4>2008 Crash Scenario</h4>
+                            <div style="display:flex; gap: 16px; margin-top: 12px;">
+                                <div style="text-align:center;">
+                                    <div class="label">Current</div>
+                                    <div class="value" style="color:var(--color-error)">-35%</div>
+                                    <div class="label">Max Drawdown</div>
+                                </div>
+                                <div style="text-align:center;">
+                                    <div class="label">Proposed</div>
+                                    <div class="value" style="color:var(--color-secondary)">-15%</div>
+                                    <div class="label">Max Drawdown</div>
+                                </div>
+                                <div style="text-align:center;">
+                                    <div class="label">Delta</div>
+                                    <div class="value" style="color:var(--color-secondary)">+$80,000</div>
+                                    <div class="label">Capital Saved</div>
+                                </div>
+                            </div>
+                            <div class="mock-chart dir3-chart" style="margin-top: 16px;">Performance Chart</div>
+                        </div>
+                    </div>
+                    <div class="dir3-col">
+                        <h3>Action Plan</h3>
+                        <div class="mock-card dir3-card">
+                            <ul>
+                                <li>Sell 10 shares of AAPL</li>
+                                <li>Sell 5 shares of MSFT</li>
+                                <li>Buy 25 shares of BND</li>
+                                <li>Buy 15 shares of VXUS</li>
+                            </ul>
+                            <button class="mock-button mock-button-primary" style="width: 100%; margin-top: 12px;">Finalize Plan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+# generated: 2025-12-27
+# project: fidelity-ira-modeling
+# project_key: fidelity-ira-modeling
+# tracking_system: file-system
+# story_location: _bmad-output
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created, ready for development
+#   - in-progress: Developer actively working on implementation
+#   - review: Implementation complete, ready for review
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Mark epic as 'in-progress' when starting work on its first story
+# - SM typically creates next story ONLY after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then Dev runs code-review (fresh context, ideally different LLM)
+
+generated: 2025-12-27
+project: fidelity-ira-modeling
+project_key: fidelity-ira-modeling
+tracking_system: file-system
+story_location: _bmad-output
+
+development_status:
+  epic-1: in-progress
+  1-1-create-and-persist-a-hardcoded-demo-portfolio: ready-for-dev
+  1-2-display-the-demo-portfolio-in-a-simple-ui: backlog
+  epic-1-retrospective: optional
+  epic-2: backlog
+  2-1-implement-core-scenario-withdrawal-calculation-logic: backlog
+  2-2-create-target-allocation-ui-with-interactive-sliders: backlog
+  2-3-connect-ui-to-calculation-logic-and-display-results: backlog
+  2-4-visualize-scenario-outcomes-in-a-chart: backlog
+  2-5-generate-interactive-action-plan: backlog
+  2-6-meet-performance-nfrs-with-a-web-worker: backlog
+  epic-2-retrospective: optional
+  epic-3: backlog
+  3-1-develop-client-side-csv-parsing-logic: backlog
+  3-2-create-portfolio-import-ui: backlog
+  3-3-replace-demo-data-with-imported-portfolio: backlog
+  epic-3-retrospective: optional

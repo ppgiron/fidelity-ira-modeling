@@ -1,0 +1,452 @@
+IRA-Modeling
+
+
+###2025-12-27
+
+ Alright, it's time to break down our approved epics into concrete,
+  actionable user stories.
+
+  My approach is to tackle one epic at a time. For each one, I will
+  propose a set of user stories. Each story will be a small,
+  completable piece of work for a developer, written in the standard
+  "As a..., I want..., So that..." format, and will include
+  specific, testable Acceptance Criteria.
+
+  We must follow two critical principles:
+   1. No future-dependencies: A story cannot depend on a future
+      story to be complete. We build sequentially.
+   2. Value-driven: Each story, even technical ones, should
+      contribute to the epic's overall goal.
+
+  Let's begin.
+
+  ---
+
+  Epic 1: "Hello, Asset!" & The Demo Portfolio
+  Goal: To prove out the end-to-end architecture and provide a rich
+  set of default data for development and testing. This is achieved
+  by displaying a hardcoded 'Demo Portfolio' on the initial screen,
+  immediately showing the app's potential.
+  FRs Covered: FR1 (partially), FR3 (partially), FR4, FR16
+
+  Here is my proposed story breakdown for this first epic. I'll
+  write out the full details for the first story so you can see the
+  format.
+
+  ---
+
+  Story 1.1: Initialize Project Structure & Core Dependencies
+
+  As a development team,
+  I want a fully configured project scaffold with all core
+  dependencies and architectural layers set up,
+  So that we have a consistent and scalable foundation for building
+  all future features.
+
+  Acceptance Criteria:
+   - Given a developer clones the repository and runs npm install,
+    When they run npm run dev,
+    Then the Vite development server starts successfully without
+  errors.
+   - Given the project structure,
+    When a developer inspects the src/ directory,
+    Then the FSD folders (app, pages, widgets, features, entities,
+  shared) are all present.
+   - Given the core dependencies,
+    When package.json is inspected,
+    Then react, typescript, vite, zustand, dexie, zod,
+  @mui/material, and recharts are listed as dependencies.
+
+  ---
+
+  Proposed subsequent stories for Epic 1:
+
+   * Story 1.2: Define Core Data Entities & Persistence Layer
+   * Story 1.3: Create a Hardcoded Demo Portfolio Service
+   * Story 1.4: Display the Demo Portfolio in a Simple UI
+
+  Does this breakdown for Epic 1 seem correct? And are you happy    
+  with the level of detail in the Acceptance Criteria for Story 1.1?
+
+> yes
+
+  Responding with gemini-2.5-pro
+✦ Excellent. Here are the full details for the remaining stories in 
+  Epic 1.
+
+  ---
+
+  Story 1.2: Define Core Data Entities & Persistence Layer
+
+  As a developer,
+  I want the Portfolio and Asset data models defined, validated, and
+  connected to an encrypted persistence layer,
+  So that all application data has a secure and reliable source of  
+  truth.
+
+  Acceptance Criteria:
+   - Given the Zod schemas for Portfolio and Asset are defined,
+    When an object with an incorrect data type is validated,
+    Then a validation error is thrown.
+   - Given the Dexie.js database is initialized,
+    When the application first loads,
+    Then a database named fidelity-ira-modeling-db with portfolios
+  and assets object stores is created in IndexedDB.
+   - Given the database encryption hooks are configured,
+    When an asset object is saved to the database,
+    Then the corresponding data stored in IndexedDB is unreadable
+  ciphertext.
+
+  Story 1.3: Create a Hardcoded Demo Portfolio Service
+
+  As a developer,
+  I want a service that provides a static, hardcoded 'Demo
+  Portfolio' object,
+  So that we have a consistent and realistic dataset for UI
+  development and testing before live data is available.
+
+  Acceptance Criteria:
+   - Given the Demo Portfolio service is available,
+    When the getDemoPortfolio function is called,
+    Then it returns a valid Portfolio object containing at least 10 
+  different Asset objects.
+   - Given the application loads for the first time,
+    When the database is checked,
+    Then the Demo Portfolio is automatically saved into the
+  encrypted database.
+
+  Story 1.4: Display the Demo Portfolio in a Simple UI
+
+  As a user,
+  I want to see the Demo Portfolio displayed in a clear and simple
+  table when I first load the application,
+  So that I can immediately understand what the application does.
+
+  Acceptance Criteria:
+   - Given the application is loaded,
+    When the main page is displayed,
+    Then a table containing the assets from the Demo Portfolio is
+  visible.
+   - Given the Demo Portfolio table is displayed,
+    When I inspect the table,
+    Then it contains columns for at least "Asset Ticker",
+  "Quantity", and "Current Value".
+   - Given data is being decrypted and retrieved from the database,
+    When the page is loading,
+    Then a simple loading indicator is displayed.
+
+  ---
+
+  This completes the story breakdown for Epic 1. Are you happy to   
+  approve these four stories? Once you do, I will append them to the
+  epics.md document and we can move on to Epic 2.
+
+======
+
+
+  Story 2.1: Implement Core Scenario Calculation Logic
+
+  As a developer,
+  I want a pure function that applies a simple economic scenario to a given portfolio,    
+  So that we can accurately model basic market changes.
+
+  Acceptance Criteria:
+   - Given a portfolio object and a scenario object { type: 'market_change', value: -0.20 
+     },
+    When the calculateScenario function is called,
+    Then the returned result object shows an endingValue that is 20% less than the        
+  portfolio's starting value.
+   - Given any valid portfolio and scenario,
+    When the calculateScenario function is called,
+    Then the returned result includes maxDrawdown and annualizedReturn properties.        
+   - Given an invalid portfolio or scenario object,
+    When the calculateScenario function is called,
+    Then it throws a validation error.
+
+  Story 2.2: Implement Cash Withdrawal Logic
+
+  As a developer,
+  I want to extend the calculation engine to model a specific cash withdrawal amount,     
+  So that users can plan for liquidity events.
+
+  Acceptance Criteria:
+   - Given a portfolio and a scenario that includes { withdrawalAmount: 5000 },
+    When the calculateScenario function is called,
+    Then the endingValue reflects the portfolio value after $5,000 has been withdrawn.    
+   - Given the calculation function,
+    When a withdrawal is modeled,
+    Then the function must use a simple, proportional asset-selling strategy to generate  
+  the required cash.
+   - Given a withdrawal amount larger than the total portfolio value,
+    When the calculateScenario function is called,
+    Then it throws an InsufficientFundsError.
+
+  Story 2.3: Implement Early Withdrawal Tax Penalty Logic
+
+  As a developer,
+  I want to add the 10% early withdrawal tax penalty calculation to the engine,
+  So that users under 59.5 are accurately informed of the costs of early withdrawal.      
+
+  Acceptance Criteria:
+   - Given a scenario with a withdrawal and the user is marked as isUnder59_5: true,      
+    When the calculateScenario function is called,
+    Then the result object must contain a penaltyAmount equal to 10% of the withdrawal    
+  amount.
+   - Given a scenario with a withdrawal and the user is marked as isUnder59_5: true,      
+    When the calculateScenario function is called,
+    Then the endingValue reflects the portfolio value after both the withdrawal and the   
+  penalty have been subtracted.
+   - Given a scenario with a withdrawal and the user is marked as isUnder59_5: false,     
+    When the calculateScenario function is called,
+    Then the penaltyAmount in the result object must be 0.
+
+  Story 2.4: Unit Test the Calculation Engine
+
+  As a developer,
+  I want a comprehensive suite of unit tests for the calculation engine,
+  So that we can ensure its accuracy and refactor with confidence.
+
+  Acceptance Criteria:
+   - Given the test suite,
+    When npm test is run,
+    Then there is at least 80% test coverage for all functions within the calculation     
+  engine module.
+   - Given the test suite,
+    When it is run,
+    Then there are specific tests that validate the correctness of the market_change      
+  scenario, the cash withdrawal logic, and the tax penalty calculation.
+
+  ---
+  This completes the story breakdown for Epic 2. Are you happy to approve these four      
+  stories? Once you do, I will append them to the epics.md document and we can move on to 
+  Epic 3.
+
+> "These stories are approved. They correctly adhere to the 'Headless' and 'Pure Function'
+  architecture. Please append them to epics.md and proceed to Epic 3."
+
+=====
+
+
+Story 3.1: Create Target Allocation UI
+
+  As a user,
+  I want to adjust my target portfolio allocation using interactive sliders,
+  So that I can easily model different investment strategies.
+
+  Acceptance Criteria:
+   - Given the Target Allocation UI is displayed for the Demo Portfolio,
+    When I move a slider for one asset (e.g., VTI from 40% to 50%),
+    Then the "Unallocated/Cash" bucket percentage automatically decreases by 10% (the
+  'Smart Constraint' logic).
+   - Given the "Unallocated/Cash" bucket is at 0%,
+    When I try to increase an asset's allocation,
+    Then the slider movement is blocked, preventing a total allocation greater than 100%.
+
+  Story 3.2: Connect UI to Calculation Engine
+
+  As a developer,
+  I want to wire the Target Allocation UI to the headless calculation engine,
+  So that user-defined scenarios can be processed to generate results.
+
+  Acceptance Criteria:
+   - Given I have adjusted my target allocation,
+    When I click the "Recalculate" button,
+    Then the current portfolio, the target portfolio, and a selected scenario are passed
+  as arguments to the calculateScenario function from Epic 2.
+   - Given the "Recalculate" button is clicked,
+    When the calculation is in progress,
+    Then the button enters a 'disabled' state to prevent multiple clicks.
+   - Given the calculation engine returns a result,
+    When the calculation is complete,
+    Then the result is stored in a client-side state management store.
+
+  Story 3.3: Display Scenario Comparison Table
+
+  As a user,
+  I want to see a clear, side-by-side table comparing the results of my current and target
+  portfolios,
+  So that I can easily evaluate the impact of my changes.
+
+  Acceptance Criteria:
+   - Given a scenario has been calculated,
+    When the results are displayed,
+    Then a table shows key metrics (e.g., 'Ending Value', 'Max Drawdown') for the
+  'Current' and 'Target' portfolios in separate columns.
+   - Given the comparison table is displayed,
+    When one portfolio outperforms the other on a specific metric (e.g., higher ending
+  value),
+    Then the better-performing cell is visually highlighted.
+
+  Story 3.4: Visualize Scenario Outcomes
+
+  As a user,
+  I want to see a chart that visually represents the performance of my current and target
+  portfolios over time,
+  So that I can intuitively grasp the scenario's impact.
+
+  Acceptance Criteria:
+   - Given scenario results are available,
+    When the chart is displayed,
+    Then it shows two distinct lines for the 'Current' and 'Target' portfolios,
+  implemented using the Recharts library.
+   - Given I hover my mouse over a point on a line,
+    When the chart is interactive,
+    Then a tooltip appears showing the specific value and date for that point.
+
+  Story 3.5: Generate Action Plan UI
+
+  As a user,
+  I want to generate a clear, step-by-step action plan based on my target allocation,
+  So that I know exactly which trades to execute.
+
+  Acceptance Criteria:
+   - Given I have a target allocation,
+    When I click the "Generate Action Plan" button,
+    Then a list of trades is displayed, grouped into two distinct steps.
+   - Given the action plan is displayed,
+    When I inspect the list,
+    Then all 'Sell' orders are grouped under a "Step 1: Raise Cash" heading, and all 'Buy'
+  orders are grouped under a "Step 2: Invest" heading (the 'Two-Step Grouping').
+   - Given the action plan is an interactive checklist,
+    When I check off an item,
+    Then its state is persisted locally and remains checked on page reload.
+
+  ---
+  This completes the story breakdown for Epic 3. Are you happy to approve these five      
+  stories? Once you do, I will append them to the epics.md document and we can move on to 
+  Epic 4.
+
+====
+
+
+✦ Excellent feedback. Scope discipline is critical. I've adjusted the plan for Epic 4     
+  based on your direction: Story 4.4 is cut, and the client-side, partial-error handling  
+  requirements have been explicitly added to the acceptance criteria for the remaining    
+  stories.
+
+  Here are the full details for the refined stories in Epic 4.
+
+  ---
+  Story 4.1: Develop Client-Side CSV Parsing Logic
+
+  As a developer,
+  I want a robust, client-side parsing function that accepts raw text from a Fidelity CSV
+  file and reliably extracts asset data,
+  So that user data remains private and the import process is resilient.
+
+  Acceptance Criteria:
+   - Given raw CSV text is provided to the parser,
+    When the parsing function executes,
+    Then all processing occurs entirely on the client-side, with no data being sent to a
+  server.
+   - Given the CSV text contains extra whitespace or empty lines,
+    When the text is parsed,
+    Then these lines are ignored and valid asset rows are still successfully parsed.
+   - Given a row in the CSV text has an invalid format (e.g., wrong number of columns),
+    When the text is parsed,
+    Then the function flags that specific row as invalid but continues to parse the rest
+  of the file.
+
+  Story 4.2: Create Portfolio Import UI
+
+  As a user,
+  I want a simple interface to paste my CSV data, see a preview, and confirm the import,  
+  So that I can easily get my portfolio into the application.
+
+  Acceptance Criteria:
+   - Given I am on the import page,
+    When I paste CSV data into a text area,
+    Then a preview table immediately appears showing the successfully parsed assets.
+   - Given the pasted CSV data contains invalid rows,
+    When the preview is displayed,
+    Then the invalid rows are visually highlighted (e.g., with a red background) in the
+  original text area, with a tooltip explaining the error (Partial Error Handling).
+   - Given both valid and invalid rows were parsed,
+    When I click the "Import" button,
+    Then only the valid rows are imported, and the invalid ones are disregarded.
+
+  Story 4.3: Replace Demo Data with Imported Portfolio
+
+  As a developer,
+  I want to implement the logic to switch the active portfolio from the demo data to the
+  user's imported data,
+  So that the application reflects the user's actual holdings.
+
+  Acceptance Criteria:
+   - Given a user has successfully imported a new portfolio,
+    When they navigate back to the main dashboard,
+    Then the UI now displays the assets from their imported portfolio, not the demo
+  portfolio.
+   - Given a user's portfolio is active,
+    When the application is reloaded,
+    Then the user's portfolio is loaded by default instead of the demo portfolio.
+
+  ---
+  This completes the story breakdown for Epic 4. Are you happy to approve these three
+  stories? Once you do, I will append them to the epics.md document and we can move on to
+  our final epic.
+
+====
+
+### 2025-12-30
+
+✅ Story 1.1 Implementation Complete
+
+  Story: Create and Persist a Hardcoded Demo Portfolio
+  Status: ✅ Ready for Review
+  File: _bmad-output/1-1-create-and-persist-a-hardcoded-demo-portfolio.md
+
+  Summary
+
+  Successfully implemented complete demo portfolio functionality including Sprint Zero prerequisites and all 5 story tasks:
+
+  Sprint Zero Completed:
+  - ✅ Task 0.1 - Project initialized (React + TypeScript + Vite + FSD + all dependencies)
+  - ✅ Task 0.2 - Core infrastructure (encryption, database, passphrase UI)
+
+  Story 1.1 Completed:
+  - ✅ Task 1 - Portfolio & Asset data models with Zod validation
+  - ✅ Task 2 - OWASP-compliant encryption with Web Worker (600k PBKDF2 iterations)
+  - ✅ Task 3 - Demo portfolio service (10 diverse assets: VTI, BND, VOO, AAPL, MSFT, AGG, GLD, QQQ, SCHD, VXUS)
+  - ✅ Task 4 - First-load persistence with loading states and comprehensive error handling
+  - ✅ Task 5 - Test suite (21 unit tests passing, >80% coverage)
+
+  Key Implementations
+
+  Security Features:
+  - Verification string distinguishes wrong passphrase from data corruption
+  - Web Worker prevents UI blocking during key derivation
+  - Crypto API support detection with graceful degradation
+  - All data encrypted in IndexedDB (unreadable ciphertext)
+
+  User Experience:
+  - Passphrase/PIN dialog for setup and unlock modes
+  - Loading indicators during initialization and encryption
+  - Error messages with clear context and resolution paths
+  - Browser compatibility checks
+
+  Test Results
+
+  - 21/21 unit tests passing (100% success)
+  - Build successful (TypeScript strict mode, zero errors)
+  - Bundle size: 488 KB (152 KB gzipped)
+
+  Files Created
+
+  26 files including:
+  - Core app structure (src/app/)
+  - Portfolio entities (src/entities/portfolio/)
+  - Encryption & database utilities (src/shared/lib/)
+  - Comprehensive test suite (*.test.ts)
+
+  Next Steps
+
+  Recommended:
+  1. Test the application: Run npm run dev to launch the app
+  2. Code review: Inspect implementation for quality and architecture compliance
+  3. Move to next story: Continue with Epic 1 stories
+
+  Questions or need clarification on any implementation details?
+
+
+
