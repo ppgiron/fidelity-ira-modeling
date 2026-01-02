@@ -8,6 +8,16 @@ import { db, setEncryptionPassphrase, clearEncryptionPassphrase, storeEncrypted,
 import { getDemoPortfolio } from '@/entities/portfolio/model/services/demo-portfolio.service';
 import { portfolioSchema } from '@/entities/portfolio/model/types';
 
+interface RawEncryptedObject {
+  _encrypted: boolean;
+  _encryptedData: {
+    ciphertext: string;
+    iv: string;
+    salt: string;
+    verification: string;
+  };
+}
+
 describe('Demo Portfolio Persistence Integration', () => {
   const testPassphrase = 'test-passphrase-12345';
 
@@ -59,17 +69,17 @@ describe('Demo Portfolio Persistence Integration', () => {
     expect(rawData).toBeDefined();
 
     // Verify the raw data contains encrypted fields
-    const rawAny = rawData as any;
-    expect(rawAny._encrypted).toBe(true);
-    expect(rawAny._encryptedData).toBeDefined();
-    expect(rawAny._encryptedData.ciphertext).toBeDefined();
-    expect(rawAny._encryptedData.iv).toBeDefined();
-    expect(rawAny._encryptedData.salt).toBeDefined();
-    expect(rawAny._encryptedData.verification).toBeDefined();
+    const rawEncrypted = rawData as RawEncryptedObject;
+    expect(rawEncrypted._encrypted).toBe(true);
+    expect(rawEncrypted._encryptedData).toBeDefined();
+    expect(rawEncrypted._encryptedData.ciphertext).toBeDefined();
+    expect(rawEncrypted._encryptedData.iv).toBeDefined();
+    expect(rawEncrypted._encryptedData.salt).toBeDefined();
+    expect(rawEncrypted._encryptedData.verification).toBeDefined();
 
     // Verify ciphertext is not plain text
-    expect(rawAny._encryptedData.ciphertext).not.toContain('Demo Portfolio');
-    expect(rawAny._encryptedData.ciphertext).not.toContain('VTI');
+    expect(rawEncrypted._encryptedData.ciphertext).not.toContain('Demo Portfolio');
+    expect(rawEncrypted._encryptedData.ciphertext).not.toContain('VTI');
   });
 
   it('should fail to decrypt with wrong passphrase', async () => {

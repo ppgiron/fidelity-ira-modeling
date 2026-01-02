@@ -266,7 +266,7 @@ export async function decrypt(
     );
 
     return decoder.decode(decryptedData);
-  } catch (error) {
+  } catch {
     throw new Error('Failed to decrypt data. Data may be corrupted.');
   }
 }

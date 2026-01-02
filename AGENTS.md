@@ -29,3 +29,5 @@
 ## Security, Privacy, and Performance
 - All sensitive data stays client-side; avoid logging portfolio contents. Use Web Crypto for encryption when storing locally (IndexedDB/localStorage) and never persist keys.
 - Keep heavy computations in Web Workers to protect UI responsiveness; enforce PWA/offline readiness (cache strategy, last-updated indicators) per architecture doc.
+
+<!-- Test comment to trigger pre-commit hook -->
