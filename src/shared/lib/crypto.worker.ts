@@ -9,13 +9,7 @@ const KEY_LENGTH = 256;
 interface DeriveKeyMessage {
   type: 'deriveKey';
   passphrase: string;
-  salt: Uint8Array<ArrayBuffer>;
-}
-
-interface DeriveKeyResponse {
-  type: 'deriveKey';
-  key: CryptoKey;
-  error?: string;
+  salt: Uint8Array;
 }
 
 /**

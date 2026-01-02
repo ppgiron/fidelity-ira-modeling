@@ -1,4 +1,8 @@
-# generated: 2025-12-27
+# Sprint Status Template
+# This is an EXAMPLE showing the expected format
+# The actual file will be generated with all epics/stories from your epic files
+
+# generated: Thursday, January 1, 2026
 # project: fidelity-ira-modeling
 # project_key: fidelity-ira-modeling
 # tracking_system: file-system
@@ -28,7 +32,7 @@
 # - SM typically creates next story ONLY after previous one is 'done' to incorporate learnings
 # - Dev moves story to 'review', then Dev runs code-review (fresh context, ideally different LLM)
 
-generated: 2025-12-27
+generated: Thursday, January 1, 2026
 project: fidelity-ira-modeling
 project_key: fidelity-ira-modeling
 tracking_system: file-system
@@ -36,9 +40,10 @@ story_location: _bmad-output
 
 development_status:
   epic-1: in-progress
-  1-1-create-and-persist-a-hardcoded-demo-portfolio: ready-for-dev
+  1-1-create-and-persist-a-hardcoded-demo-portfolio: review
   1-2-display-the-demo-portfolio-in-a-simple-ui: backlog
   epic-1-retrospective: optional
+
   epic-2: backlog
   2-1-implement-core-scenario-withdrawal-calculation-logic: backlog
   2-2-create-target-allocation-ui-with-interactive-sliders: backlog
@@ -47,6 +52,7 @@ development_status:
   2-5-generate-interactive-action-plan: backlog
   2-6-meet-performance-nfrs-with-a-web-worker: backlog
   epic-2-retrospective: optional
+
   epic-3: backlog
   3-1-develop-client-side-csv-parsing-logic: backlog
   3-2-create-portfolio-import-ui: backlog

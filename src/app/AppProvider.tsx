@@ -83,7 +83,7 @@ function AppProvider({ children }: AppProviderProps) {
           setIsAuthenticated(true);
           setPassphraseDialogOpen(false);
           setPassphraseError(undefined);
-        } catch (error) {
+        } catch {
           setPassphraseError('Incorrect passphrase. Please try again.');
           setIsAuthenticated(false);
         }
@@ -93,9 +93,9 @@ function AppProvider({ children }: AppProviderProps) {
         setPassphraseDialogOpen(false);
         setPassphraseError(undefined);
       }
-    } catch (error) {
+    } catch (_error) {
       const errorMessage =
-        error instanceof Error ? error.message : 'Failed to set passphrase';
+        _error instanceof Error ? _error.message : 'Failed to set passphrase';
       setPassphraseError(errorMessage);
       setIsAuthenticated(false);
     }
