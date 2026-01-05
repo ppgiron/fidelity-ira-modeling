@@ -5,6 +5,9 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  optimizeDeps: {
+    include: ['@mui/material']
+  },
   plugins: [
     react(),
     VitePWA({
@@ -42,7 +45,10 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['./src/tests/setup.ts', './src/tests/indexeddb.setup.ts'],
+    setupFiles: ['./src/tests/setup.ts', './src/tests/indexeddb.setup.ts', './src/tests/global-auth-mock.ts'],
+    deps: {
+      inline: ['@mui/material', '@mui/x-data-grid']
+    },
     coverage: {
       reporter: ['text', 'json', 'html'],
       exclude: [

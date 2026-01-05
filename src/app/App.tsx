@@ -1,12 +1,10 @@
 import AppProvider from './AppProvider';
+import DashboardPage from '@/pages/DashboardPage';
 
 function App() {
   return (
     <AppProvider>
-      <div style={{ padding: '2rem' }}>
-        <h1>Fidelity IRA Modeling</h1>
-        <p>Application initialized. Ready for development.</p>
-      </div>
+      <DashboardPage />
     </AppProvider>
   );
 }

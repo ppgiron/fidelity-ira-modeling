@@ -1,6 +1,6 @@
 # Story 1.1: Create and Persist a Hardcoded Demo Portfolio
 
-Status: review
+Status: done
 
 ## Prerequisites
 - **Task 0.1: Initialize Project Structure & Core Dependencies** must be complete.
@@ -190,7 +190,7 @@ Key files to create using absolute import paths:
 - `tsconfig.json` - TypeScript strict configuration with FSD path aliases
 - `tsconfig.node.json` - Node TypeScript configuration
 - `vite.config.ts` - Vite configuration with PWA and path aliases
-- `.eslintrc.cjs` - ESLint configuration
+- `eslint.config.js` - ESLint configuration
 - `prettier.config.cjs` - Prettier configuration
 - `.gitignore` - Git ignore patterns
 - `index.html` - Application entry point
