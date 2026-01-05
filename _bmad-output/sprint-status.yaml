@@ -41,7 +41,7 @@ story_location: _bmad-output
 development_status:
   epic-1: in-progress
   1-1-create-and-persist-a-hardcoded-demo-portfolio: done
-  1-2-display-the-demo-portfolio-in-a-simple-ui: in-progress
+  1-2-display-the-demo-portfolio-in-a-simple-ui: done
   epic-1-retrospective: optional
 
   epic-2: backlog

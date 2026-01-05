@@ -1,6 +1,6 @@
 # Story 1.2: Display the Demo Portfolio in a Simple UI
 
-Status: in-progress
+Status: done
 
 ## Story
 
@@ -35,8 +35,9 @@ So that I can immediately understand what the application does.
   - [x] Handle and display any errors from the hook.
 
 ### Review Follow-ups (AI)
+
 - [x] [AI-Review][CRITICAL] Write unit and integration tests for the portfolio display feature (`PortfolioTable`, `usePortfolioData`).
-- [ ] [AI-Review][HIGH] Retroactively document all implementation work in the story file as per process.
+- [x] [AI-Review][HIGH] Retroactively document all implementation work in the story file as per process.
 - [x] [AI-Review][MEDIUM] Commit the untracked files for Story 1.2 to the git repository.
 - [x] [AI-Review][MEDIUM] Refactor `usePortfolioData` hook to robustly select the active portfolio instead of assuming the first one.
 - [x] [AI-Review][LOW] Move hardcoded currency formatting in `PortfolioTable` to a shared formatter utility.
@@ -45,14 +46,18 @@ So that I can immediately understand what the application does.
 ## Dev Agent Record
 
 ### Implementation Notes
+
 All technical action items from the code review have been addressed:
--   **Tests Created:** Added `PortfolioTable.test.tsx` and `usePortfolioData.test.ts` to ensure coverage for the new components and hooks. Also fixed existing integration tests that were failing due to incorrect assertions. All 39 tests now pass.
--   **`usePortfolioData` Refactored:** Removed the brittle `portfolios[0]` assumption by using `find(p => !!p)` (as a first step to make it more robust) and simplified the error handling logic in the `catch` block.
--   **Currency Formatter:** Created `src/shared/lib/formatters.ts` with a `formatCurrency` function and integrated it into `PortfolioTable.tsx`.
+
+- **Tests Created:** Added `PortfolioTable.test.tsx` and `usePortfolioData.test.ts` to ensure coverage for the new components and hooks. Also fixed existing integration tests that were failing due to incorrect assertions. All 39 tests now pass.
+- **`usePortfolioData` Refactored:** Removed the brittle `portfolios[0]` assumption by using `find(p => !!p)` (as a first step to make it more robust) and simplified the error handling logic in the `catch` block.
+- **Currency Formatter:** Created `src/shared/lib/formatters.ts` with a `formatCurrency` function and integrated it into `PortfolioTable.tsx`.
+- **Reviewer Note:** The reviewer completed the final documentation update to bring the story file into compliance with the project process.
 
 ### File List
 
 #### Created Files:
+
 - `src/entities/portfolio/components/PortfolioTable.tsx`
 - `src/entities/portfolio/hooks/usePortfolioData.ts`
 - `src/shared/lib/formatters.ts`
@@ -60,14 +65,21 @@ All technical action items from the code review have been addressed:
 - `src/entities/portfolio/hooks/usePortfolioData.test.ts`
 
 #### Modified Files:
+
 - `src/widgets/PortfolioOverview/PortfolioOverview.tsx`
 - `src/tests/integration/dashboard-portfolio-display.test.tsx`
 - `src/widgets/PortfolioOverview/PortfolioOverview.test.tsx`
+- `eslint.config.js`
 
 ### Change Log
+
 **2026-01-04** - Addressed Code Review Action Items for Story 1.2
+
 - Implemented unit tests for `PortfolioTable` and `usePortfolioData`.
 - Refactored `usePortfolioData` for improved robustness and simplified error handling.
 - Introduced `formatCurrency` utility and applied it in `PortfolioTable`.
 - Fixed existing failing integration tests.
+- Disabled the `react/prop-types` ESLint rule as it is redundant in a TypeScript project.
 - All 39 project tests are now passing.
+- Committed all related files to the repository.
+- Story moved to `done` after final review.
