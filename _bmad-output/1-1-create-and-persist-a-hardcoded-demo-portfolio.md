@@ -3,6 +3,7 @@
 Status: done
 
 ## Prerequisites
+
 - **Task 0.1: Initialize Project Structure & Core Dependencies** must be complete.
 - **Task 0.2: Define Core Data Entities & Initial Persistence Layer** must be complete, including the passphrase/PIN collection UI and the `shared/lib/encryption.ts` Web Crypto API wrapper with passphrase-based key derivation.
 
@@ -79,19 +80,23 @@ so that we have a consistent and realistic dataset for the initial user experien
 ## Dev Agent Guardrails & Context
 
 ### Architecture Compliance
+
 See `architecture.md` for full Feature-Sliced Design (FSD) structure. Key points for this story:
+
 - **`@/entities/portfolio/`**: Home for core `Portfolio` and `Asset` data models
 - **`@/shared/lib/`**: Reusable utilities for database (`db.ts`) and encryption (`encryption.ts`)
 - **`@/app/`**: Application providers and startup logic
 - **Import Convention**: Use absolute imports with `@/` prefix for FSD layers (per project-context.md)
 
 ### Technical Requirements
+
 - **Immutability:** All state updates must be immutable.
 - **Data Validation:** All data entering the persistence layer MUST be validated with Zod schemas.
 - **Local-Only Constraint:** No portfolio data should ever be sent to a remote server. All processing is client-side.
 - **State Management:** Use the existing Zustand store for any global state.
 
 ### Security Requirements
+
 - **Encryption:** All data stored in IndexedDB MUST be encrypted using Web Crypto API via the established wrapper in `@/shared/lib/encryption.ts`.
 - **Key Handling:** The encryption key is derived from user-provided passphrase/PIN and held in-memory only. The key must NEVER be persisted.
 - **Verification String:** MUST be included with encrypted data to distinguish wrong passphrase from data corruption.
@@ -102,12 +107,15 @@ See `architecture.md` for full Feature-Sliced Design (FSD) structure. Key points
 - **Input Sanitization:** Sanitize all user input to prevent XSS and injection vulnerabilities.
 
 ### Data Persistence
+
 - **Dexie.js:** The only approved library for IndexedDB interactions.
 - **Versioning:** Schema MUST be versioned (`db.version(1).stores(...)`) for future migration support.
 - **Error Handling:** Implement try/catch blocks for all database and encryption operations. User-facing errors should be graceful; technical errors logged to Sentry.
 
 ### File Structure
+
 Key files to create using absolute import paths:
+
 - `@/entities/portfolio/model/types.ts` - Portfolio & Asset interfaces + Zod schemas
 - `@/shared/lib/db.ts` - Dexie configuration with versioned schema
 - `@/shared/lib/encryption.ts` - Web Crypto API wrapper (should exist from Task 0.2)
@@ -115,11 +123,13 @@ Key files to create using absolute import paths:
 - `@/app/AppProvider.tsx` - Application startup with useInitDemoPortfolio hook
 
 ### Performance Requirements
+
 - Key derivation and encryption/decryption operations MUST NOT block the main UI thread
 - Loading states MUST be displayed during async operations (use shimmer/skeleton patterns)
 - Web Worker failure MUST have fallback error handling (cannot assume Worker will always load)
 
 ### Anti-Patterns to Avoid
+
 - Never store encryption keys persistently
 - Never run PBKDF2 or heavy crypto operations on main thread
 - Never pass unvalidated data to/from Web Workers (use Zod validation)
@@ -128,6 +138,7 @@ Key files to create using absolute import paths:
 - Never mutate Zustand store state directly - use immutable updates
 
 ### Source References
+
 - **Epic 1 Definition:** [Source: _bmad-output/epics.md#Epic-1-"Hello,-Asset!"-&-The-Demo-Portfolio]
 - **Architecture > Data Architecture:** [Source: _bmad-output/architecture.md#Data-Architecture]
 - **Architecture > Security:** [Source: _bmad-output/architecture.md#Authentication--Security]
@@ -138,6 +149,7 @@ Key files to create using absolute import paths:
 ### Implementation Notes
 
 **Sprint Zero (Prerequisites):**
+
 - Initialized React + TypeScript + Vite project with all required dependencies
 - Configured Feature-Sliced Design (FSD) folder structure with path aliases
 - Set up ESLint, Prettier, Vitest, and PWA configuration
@@ -148,6 +160,7 @@ Key files to create using absolute import paths:
 **Task 1 - Data Models:** Created Portfolio and Asset TypeScript interfaces with comprehensive Zod schemas including validation for all fields (uuid, ticker symbols, quantities, prices, asset classes, timestamps).
 
 **Task 2 - Persistence Layer:** Implemented complete encryption infrastructure:
+
 - Web Crypto API wrapper (encryption.ts) with OWASP-compliant PBKDF2 (600k iterations, 256-bit key, random salt)
 - Verification string mechanism to distinguish wrong passphrase from data corruption
 - Web Worker (crypto.worker.ts) for key derivation to prevent UI blocking
@@ -159,6 +172,7 @@ Key files to create using absolute import paths:
 **Task 3 - Demo Portfolio Service:** Created getDemoPortfolio() service returning hardcoded portfolio with 10 diverse assets (VTI, BND, VOO, AAPL, MSFT, AGG, GLD, QQQ, SCHD, VXUS) covering stocks, bonds, and ETFs with realistic prices.
 
 **Task 4 - First-Load Logic:** Implemented useInitDemoPortfolio hook with:
+
 - First-load detection (empty database check)
 - Idempotent seeding logic
 - Loading indicators (CircularProgress with descriptive text)
@@ -166,6 +180,7 @@ Key files to create using absolute import paths:
 - Integration into AppProvider with PassphraseDialog for setup/unlock modes
 
 **Task 5 - Testing:** Created comprehensive test suite:
+
 - 21 unit tests passing (100% success rate)
 - getDemoPortfolio validation (10 tests): UUID generation, schema validation, diverse assets, realistic tickers, value calculation
 - Encryption utilities (11 tests): Passphrase validation, encrypt/decrypt round-trip, wrong passphrase detection, verification string functionality
@@ -186,6 +201,7 @@ Key files to create using absolute import paths:
 ## File List
 
 ### Created Files:
+
 - `package.json` - Project dependencies and scripts
 - `tsconfig.json` - TypeScript strict configuration with FSD path aliases
 - `tsconfig.node.json` - Node TypeScript configuration
@@ -214,11 +230,13 @@ Key files to create using absolute import paths:
 - `public/vite.svg` - Vite logo
 
 ### Modified Files:
+
 None (all new files for greenfield project)
 
 ## Change Log
 
 **2025-12-29** - Story 1.1 Complete
+
 - Completed Sprint Zero (Tasks 0.1 and 0.2) - Project initialization and core infrastructure
 - Implemented all 5 tasks for Story 1.1
 - Created demo portfolio with 10 diverse assets

@@ -80,8 +80,7 @@ describe('getDemoPortfolio', () => {
 
   it('should have valid UUIDs for IDs', () => {
     const portfolio = getDemoPortfolio();
-    const uuidRegex =
-      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
     expect(portfolio.id).toMatch(uuidRegex);
 

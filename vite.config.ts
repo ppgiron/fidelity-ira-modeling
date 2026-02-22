@@ -6,7 +6,7 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   optimizeDeps: {
-    include: ['@mui/material']
+    include: ['@mui/material'],
   },
   plugins: [
     react(),
@@ -21,16 +21,16 @@ export default defineConfig({
           {
             src: '/icon-192.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: '/icon-512.png',
             sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
-      }
-    })
+            type: 'image/png',
+          },
+        ],
+      },
+    }),
   ],
   resolve: {
     alias: {
@@ -39,15 +39,19 @@ export default defineConfig({
       '@/widgets': path.resolve(__dirname, './src/widgets'),
       '@/features': path.resolve(__dirname, './src/features'),
       '@/entities': path.resolve(__dirname, './src/entities'),
-      '@/shared': path.resolve(__dirname, './src/shared')
-    }
+      '@/shared': path.resolve(__dirname, './src/shared'),
+    },
   },
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['./src/tests/setup.ts', './src/tests/indexeddb.setup.ts', './src/tests/global-auth-mock.ts'],
+    setupFiles: [
+      './src/tests/setup.ts',
+      './src/tests/indexeddb.setup.ts',
+      './src/tests/global-auth-mock.ts',
+    ],
     deps: {
-      inline: ['@mui/material', '@mui/x-data-grid']
+      inline: ['@mui/material', '@mui/x-data-grid'],
     },
     coverage: {
       reporter: ['text', 'json', 'html'],
@@ -57,8 +61,8 @@ export default defineConfig({
         '**/*.test.ts',
         '**/*.test.tsx',
         '**/*.spec.ts',
-        '**/*.spec.tsx'
-      ]
-    }
-  }
+        '**/*.spec.tsx',
+      ],
+    },
+  },
 });

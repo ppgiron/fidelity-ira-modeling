@@ -4,29 +4,36 @@
 **Project:** fidelity-ira-modeling
 
 ---
+
 stepsCompleted: [1]
 inputDocuments:
-  - _bmad-output/prd.md
-  - _bmad-output/architecture.md
-  - _bmad-output/ux-design-specification.md
+
+- \_bmad-output/prd.md
+- \_bmad-output/architecture.md
+- \_bmad-output/ux-design-specification.md
+
 ---
 
 ## Document Inventory
 
 **PRD Files Found**
+
 - **Whole Documents:**
-  - _bmad-output/prd.md
+  - \_bmad-output/prd.md
 
 **Architecture Files Found**
+
 - **Whole Documents:**
-  - _bmad-output/architecture.md
+  - \_bmad-output/architecture.md
 
 **Epics & Stories Files Found**
+
 - None
 
 **UX Design Files Found**
+
 - **Whole Documents:**
-  - _bmad-output/ux-design-specification.md
+  - \_bmad-output/ux-design-specification.md
 
 ## PRD Analysis
 
@@ -53,10 +60,7 @@ FR15: Local Persistence: All portfolio data stored locally in the browser.
 NFR1: Offline Capability: Core calculation engine and user data persistence will be supported via client-side technologies (e.g., IndexedDB, Service Workers). On re-establishing a network connection, the application will automatically fetch fresh market data in the background and clearly indicate the data's freshness in the UI (e.g., "Last updated: Just Now").
 NFR2: Client-Side Performance: Optimized for fast rendering and responsiveness, particularly for interactive elements and data visualizations. Heavy calculations will be offloaded to a Web Worker to ensure the UI remains fluid.
 NFR3: Browser Compatibility: The application will be compatible with the latest two stable versions of Chrome, Firefox, Safari, and Edge. Dedicated QA time will be allocated for cross-browser testing, especially for data visualizations and complex CSS layouts.
-NFR4: Performance Targets:
-    - Initial Load Time: < 3 seconds (on a standard broadband connection).
-    - Scenario Calculation: < 500ms for standard portfolios.
-    - UI Responsiveness: User interface interactions (e.g., slider adjustments, data input) should respond instantaneously (<100ms).
+NFR4: Performance Targets: - Initial Load Time: < 3 seconds (on a standard broadband connection). - Scenario Calculation: < 500ms for standard portfolios. - UI Responsiveness: User interface interactions (e.g., slider adjustments, data input) should respond instantaneously (<100ms).
 NFR5: Accessibility Standards: The application will adhere to Web Content Accessibility Guidelines (WCAG) 2.1 Level AA where practical for the MVP. This includes ensuring all components, especially data visualization and charting libraries, are keyboard-navigable and screen-reader accessible.
 
 ### Additional Requirements
@@ -69,27 +73,28 @@ NFR5: Accessibility Standards: The application will adhere to Web Content Access
 ### PRD Completeness Assessment
 
 The PRD is comprehensive and provides a clear vision for the project. The functional and non-functional requirements are well-defined. The user journey provides excellent context.
+
 ## Epic Coverage Validation
 
 ### Coverage Matrix
 
-| FR Number | PRD Requirement | Epic Coverage  | Status    |
-| --------- | --------------- | -------------- | --------- |
-| FR1       | Portfolio Input: Manual entry and critical CSV import from Fidelity. | **NOT FOUND**  | ? MISSING |
-| FR2       | Auto-fetch current prices. | **NOT FOUND**  | ? MISSING |
-| FR3       | Calculate total value and display basic breakdowns. | **NOT FOUND**  | ? MISSING |
-| FR4       | Proposed Allocation: Slider/percentage input for target allocation. | **NOT FOUND**  | ? MISSING |
-| FR5       | Real-time updates. | **NOT FOUND**  | ? MISSING |
-| FR6       | Display of auto-generated trade list. | **NOT FOUND**  | ? MISSING |
-| FR7       | Scenario Simulation: Pre-built scenarios. | **NOT FOUND**  | ? MISSING |
-| FR8       | Apply scenarios to both current and proposed allocations. | **NOT FOUND**  | ? MISSING |
-| FR9       | Calculate ending value, max drawdown, and annualized return. | **NOT FOUND**  | ? MISSING |
-| FR10      | Side-by-Side Comparison: Table view comparing current vs. proposed portfolios. | **NOT FOUND**  | ? MISSING |
-| FR11      | Highlight best/worst outcomes. | **NOT FOUND**  | ? MISSING |
-| FR12      | Withdrawal & Tax Penalty Modeling: Allow the user to specify a cash withdrawal amount as part of a proposed allocation. | **NOT FOUND**  | ? MISSING |
-| FR13      | The simulation will model the necessary sales to generate the required cash and, crucially, will calculate and display the estimated 10% early withdrawal tax penalty if the user indicates they are under the age of 59.5. | **NOT FOUND**  | ? MISSING |
-| FR14      | The final scenario results will clearly show the post-withdrawal portfolio value and the amount lost to penalties. | **NOT FOUND**  | ? MISSING |
-| FR15      | Local Persistence: All portfolio data stored locally in the browser. | **NOT FOUND**  | ? MISSING |
+| FR Number | PRD Requirement                                                                                                                                                                                                             | Epic Coverage | Status    |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | --------- |
+| FR1       | Portfolio Input: Manual entry and critical CSV import from Fidelity.                                                                                                                                                        | **NOT FOUND** | ? MISSING |
+| FR2       | Auto-fetch current prices.                                                                                                                                                                                                  | **NOT FOUND** | ? MISSING |
+| FR3       | Calculate total value and display basic breakdowns.                                                                                                                                                                         | **NOT FOUND** | ? MISSING |
+| FR4       | Proposed Allocation: Slider/percentage input for target allocation.                                                                                                                                                         | **NOT FOUND** | ? MISSING |
+| FR5       | Real-time updates.                                                                                                                                                                                                          | **NOT FOUND** | ? MISSING |
+| FR6       | Display of auto-generated trade list.                                                                                                                                                                                       | **NOT FOUND** | ? MISSING |
+| FR7       | Scenario Simulation: Pre-built scenarios.                                                                                                                                                                                   | **NOT FOUND** | ? MISSING |
+| FR8       | Apply scenarios to both current and proposed allocations.                                                                                                                                                                   | **NOT FOUND** | ? MISSING |
+| FR9       | Calculate ending value, max drawdown, and annualized return.                                                                                                                                                                | **NOT FOUND** | ? MISSING |
+| FR10      | Side-by-Side Comparison: Table view comparing current vs. proposed portfolios.                                                                                                                                              | **NOT FOUND** | ? MISSING |
+| FR11      | Highlight best/worst outcomes.                                                                                                                                                                                              | **NOT FOUND** | ? MISSING |
+| FR12      | Withdrawal & Tax Penalty Modeling: Allow the user to specify a cash withdrawal amount as part of a proposed allocation.                                                                                                     | **NOT FOUND** | ? MISSING |
+| FR13      | The simulation will model the necessary sales to generate the required cash and, crucially, will calculate and display the estimated 10% early withdrawal tax penalty if the user indicates they are under the age of 59.5. | **NOT FOUND** | ? MISSING |
+| FR14      | The final scenario results will clearly show the post-withdrawal portfolio value and the amount lost to penalties.                                                                                                          | **NOT FOUND** | ? MISSING |
+| FR15      | Local Persistence: All portfolio data stored locally in the browser.                                                                                                                                                        | **NOT FOUND** | ? MISSING |
 
 ### Missing Requirements
 
@@ -100,11 +105,12 @@ All 15 Functional Requirements are missing from the Epics & Stories document, as
 - Total PRD FRs: 15
 - FRs covered in epics: 0
 - Coverage percentage: 0%
+
 ## UX Alignment Assessment
 
 ### UX Document Status
 
-Found: _bmad-output/ux-design-specification.md
+Found: \_bmad-output/ux-design-specification.md
 
 ### Alignment Issues
 
@@ -113,9 +119,11 @@ No major alignment issues were found between the UX Design Specification, the PR
 ### Warnings
 
 No warnings.
+
 ## Epic Quality Review
 
 The Epic Quality Review could not be performed because the Epics & Stories document was not found.
+
 ## Summary and Recommendations
 
 ### Overall Readiness Status

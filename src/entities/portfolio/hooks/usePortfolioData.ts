@@ -13,7 +13,7 @@ export const usePortfolioData = () => {
       setError(null);
       try {
         const portfolios = await retrieveAllEncrypted(db.portfolios);
-        const firstPortfolio = portfolios.find(p => !!p);
+        const firstPortfolio = portfolios.find((p) => !!p);
 
         if (firstPortfolio) {
           setPortfolio(firstPortfolio);

@@ -4,7 +4,13 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { db, setEncryptionPassphrase, clearEncryptionPassphrase, storeEncrypted, retrieveEncrypted } from '@/shared/lib/db';
+import {
+  db,
+  setEncryptionPassphrase,
+  clearEncryptionPassphrase,
+  storeEncrypted,
+  retrieveEncrypted,
+} from '@/shared/lib/db';
 import { getDemoPortfolio } from '@/entities/portfolio/model/services/demo-portfolio.service';
 import { portfolioSchema } from '@/entities/portfolio/model/types';
 

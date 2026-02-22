@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { usePortfolioData } from '@/entities/portfolio/hooks/usePortfolioData';
 import { PortfolioTable } from '@/entities/portfolio/components/PortfolioTable';
@@ -27,4 +26,3 @@ export const PortfolioOverview: React.FC = () => {
     </Box>
   );
 };
-

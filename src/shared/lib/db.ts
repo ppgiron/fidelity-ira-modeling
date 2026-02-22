@@ -66,10 +66,7 @@ export function hasEncryptionPassphrase(): boolean {
  * Store encrypted data
  * Encrypts the data before storing in IndexedDB
  */
-export async function storeEncrypted<T>(
-  table: Table<T, string>,
-  data: T
-): Promise<string> {
+export async function storeEncrypted<T>(table: Table<T, string>, data: T): Promise<string> {
   if (!encryptionPassphrase) {
     throw new Error('Encryption passphrase not set. Please authenticate first.');
   }
@@ -119,9 +116,7 @@ export async function retrieveEncrypted<T>(
 /**
  * Retrieve all encrypted data
  */
-export async function retrieveAllEncrypted<T>(
-  table: Table<T, string>
-): Promise<T[]> {
+export async function retrieveAllEncrypted<T>(table: Table<T, string>): Promise<T[]> {
   if (!encryptionPassphrase) {
     throw new Error('Encryption passphrase not set. Please authenticate first.');
   }

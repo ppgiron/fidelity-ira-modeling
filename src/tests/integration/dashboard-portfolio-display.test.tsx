@@ -4,8 +4,6 @@ import App from '@/app/App';
 import { db } from '@/shared/lib/db';
 import 'fake-indexeddb/auto'; // This will polyfill IndexedDB
 
-
-
 describe('Dashboard Portfolio Display Integration Test', () => {
   beforeEach(async () => {
     // Clear the database before each test

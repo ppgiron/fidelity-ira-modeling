@@ -1,191 +1,174 @@
 ---
-stepsCompleted: ['step-01-validate-prerequisites', 'step-02-design-epics', 'step-03-create-stories', 'step-04-review-and-restructure']
+stepsCompleted: [1]
 inputDocuments:
-  - _bmad-output/prd.md
-  - _bmad-output/architecture.md
-  - _bmad-output/ux-design-specification.md
+  [
+    '_bmad-output/prd.md',
+    '_bmad-output/architecture.md',
+    '_bmad-output/ux-design-specification.md',
+    '_bmad-output/epic-1-retro-2026-01-06.md',
+  ]
 ---
 
-# fidelity-ira-modeling - Epic Breakdown (Revised)
+# fidelity-ira-modeling - Epic Breakdown
 
 ## Overview
 
-This document provides the complete epic and story breakdown for fidelity-ira-modeling, decomposing the requirements from the PRD, UX Design if it exists, and Architecture requirements into implementable stories. **This version has been restructured to ensure all epics are user-centric and independently deliver value.**
-
-## Sprint Zero - Technical Tasks
-_These are foundational setup tasks, not user stories. They must be completed before starting Epic 1._
-
-- **Task 0.1: Initialize Project Structure & Core Dependencies:** Set up a fully configured project scaffold with all core dependencies (React, Vite, MUI, etc.) and the Feature-Sliced Design (FSD) architectural layers, enabling a consistent and scalable foundation.
-- **Task 0.2: Define Core Data Entities & Initial Persistence Layer:** Define and validate the `Portfolio` and `Asset` data models (using Zod) and establish the encrypted IndexedDB persistence layer (using Dexie.js) to create a secure source of truth.
+This document provides the complete epic and story breakdown for fidelity-ira-modeling, decomposing the requirements from the PRD, UX Design, and Architecture documents into implementable stories. It has been updated to reflect the completion of Epic 1.
 
 ## Requirements Inventory
 
 ### Functional Requirements
 
-FR1: The system must allow portfolio creation via manual entry of holdings.
-FR2: The system must allow portfolio creation via CSV import compatible with the Fidelity format.
-FR3: The system must automatically fetch and display current market prices for imported holdings.
-FR4: The system must calculate and display the total portfolio value and basic breakdowns (e.g., by asset).
-FR5: The user must be able to define a target portfolio allocation using interactive sliders or percentage inputs.
-FR6: The user interface must provide real-time updates as the target allocation is modified.
-FR7: The system must generate and display a trade list required to transition from the current to the target allocation.
-FR8: The system must provide a set of pre-built economic scenarios for stress-testing.
-FR9: The user must be able to apply scenarios to both their current and proposed portfolio allocations.
-FR10: The scenario simulation must calculate and display the ending value, maximum drawdown, and annualized return.
-FR11: The system must provide a side-by-side comparison view of the current vs. proposed portfolios under a selected scenario.
-FR12: The comparison view must highlight the best and worst outcomes for key metrics.
-FR13: The user must be able to specify a cash withdrawal amount as part of a proposed allocation.
-FR14: The system must calculate the 10% early withdrawal tax penalty if the user is under the age of 59.5 and making a withdrawal.
-FR15: The final scenario results must clearly display the post-withdrawal portfolio value and the total penalty amount.
-FR16: All user portfolio data must be stored locally in the user's browser.
-FR17: The system must identify and display portfolio concentration risks (e.g., by sector or asset class).
+FR1: The system must allow manual entry of portfolio holdings.
+FR2: The system must support CSV import of portfolio holdings from Fidelity.
+FR3: The system must automatically fetch current market prices for holdings.
+FR4: The system must calculate and display the total value of the portfolio.
+FR5: The system must display basic breakdowns of the portfolio.
+FR6: The system must allow users to define a proposed asset allocation using sliders or percentage inputs.
+FR7: The system must provide real-time updates as the user adjusts the proposed allocation.
+FR8: The system must display an auto-generated trade list to achieve the proposed allocation.
+FR9: The system must apply pre-built economic scenarios to both the current and proposed portfolios.
+FR10: The system must calculate the ending value, maximum drawdown, and annualized return for each scenario simulation.
+FR11: The system must present a side-by-side comparison of the current vs. proposed portfolios in a table view.
+FR12: The comparison view must highlight the best and worst outcomes for each portfolio.
+FR13: The system must allow a user to specify a cash withdrawal amount in a proposed allocation.
+FR14: The simulation must model the necessary sales to generate the required cash for a withdrawal.
+FR15: The system must calculate and display the estimated 10% early withdrawal tax penalty if the user is under 59.5 years old.
+FR16: The final scenario results must clearly show the post-withdrawal portfolio value and the penalty amount.
+FR17: All portfolio data must be stored locally in the user's browser.
+FR18: The system must provide secure and private (local-first) handling of holdings.
+FR19: The system must identify and display portfolio risks like sector or asset class concentration.
 
-### NonFunctional Requirements
-_(Unchanged)_
+### Non-Functional Requirements
 
-### Additional Requirements
-_(Unchanged)_
+NFR1: All calculations must be transparent and visible (no "black box" algorithms).
+NFR2: Financial data must remain local to the user's browser to ensure privacy.
+NFR3: The core engine must be offline-capable.
+NFR4: All core scenario calculations must complete within 500ms.
+NFR5: On re-establishing a network connection, the application will automatically fetch fresh market data in the background.
+NFR6: The application must indicate the freshness of the data in the UI.
+NFR7: Heavy calculations must be offloaded to a Web Worker to keep the UI fluid.
+NFR8: The application must be compatible with the latest two stable versions of Chrome, Firefox, Safari, and Edge.
+NFR9: Initial Load Time must be less than 3 seconds on a standard broadband connection.
+NFR10: UI interactions should respond in less than 100ms.
+NFR11: The application must adhere to WCAG 2.1 Level AA where practical.
+NFR12: All components, especially data visualizations, must be keyboard-navigable and screen-reader accessible.
 
-### FR Coverage Map (Revised)
+_(A full list of additional requirements from Architecture and UX is omitted here for brevity but was used to inform story creation)_
 
-FR1: Epic 1 - "Hello, Asset!" & The Demo Portfolio
-FR2: Epic 3 - Full Portfolio Onboarding
-FR3: Epic 1 - "Hello, Asset!" & The Demo Portfolio
-FR4: Epic 1 - "Hello, Asset!" & The Demo Portfolio
-FR5: Epic 2 - Interactive Modeling, Comparison & Action
-FR6: Epic 2 - Interactive Modeling, Comparison & Action
-FR7: Epic 2 - Interactive Modeling, Comparison & Action
-FR8: Epic 2 - Interactive Modeling, Comparison & Action
-FR9: Epic 2 - Interactive Modeling, Comparison & Action
-FR10: Epic 2 - Interactive Modeling, Comparison & Action
-FR11: Epic 2 - Interactive Modeling, Comparison & Action
-FR12: Epic 2 - Interactive Modeling, Comparison & Action
-FR13: Epic 2 - Interactive Modeling, Comparison & Action
-FR14: Epic 2 - Interactive Modeling, Comparison & Action
-FR15: Epic 2 - Interactive Modeling, Comparison & Action
-FR16: Epic 1 - "Hello, Asset!" & The Demo Portfolio
-FR17: Epic 3 - Full Portfolio Onboarding
+## FR Coverage Map
 
-## Epic List (Revised)
+| FR   | Requirement Summary                    | Epic.Story | Status |
+| ---- | -------------------------------------- | ---------- | ------ |
+| FR1  | Manual portfolio entry                 | 2.1        | To Do  |
+| FR2  | Fidelity CSV import                    | 2.1        | To Do  |
+| FR3  | Auto-fetch prices                      | 2.1        | To Do  |
+| FR4  | Calculate/display total value          | 1.2        | Done   |
+| FR5  | Display portfolio breakdowns           | 1.2        | Done   |
+| FR6  | Slider/percentage allocation input     | 2.2        | To Do  |
+| FR7  | Real-time updates on allocation change | 2.2        | To Do  |
+| FR8  | Display auto-generated trade list      | 3.1        | To Do  |
+| FR9  | Apply pre-built scenarios              | 2.2        | To Do  |
+| FR10 | Calculate scenario outcomes            | 2.2        | To Do  |
+| FR11 | Side-by-side comparison view           | 2.4        | To Do  |
+| FR12 | Highlight best/worst outcomes          | 2.4        | To Do  |
+| FR13 | Specify cash withdrawal                | 2.3        | To Do  |
+| FR14 | Model sales for withdrawal             | 2.3        | To Do  |
+| FR15 | Calculate 10% early withdrawal penalty | 2.3        | To Do  |
+| FR16 | Show post-withdrawal value and penalty | 2.3        | To Do  |
+| FR17 | Store data locally in browser          | 1.1        | Done   |
+| FR18 | Secure, private, local-first data      | 1.1        | Done   |
+| FR19 | Identify/display concentration risk    | 2.4        | To Do  |
 
-### Epic 1: "Hello, Asset!" & The Demo Portfolio
-**Goal:** To allow a new user to instantly understand the app's value by displaying a hardcoded, interactive 'Demo Portfolio' on the initial screen, proving out the end-to-end UI and persistence architecture.
-**FRs Covered:** FR1 (partially), FR3 (partially), FR4, FR16
+## Epic List
 
-### Epic 2: Interactive Modeling, Comparison & Action
-**Goal:** To allow a user to model a target allocation against the pre-loaded **Demo Portfolio**, run complex scenarios (including withdrawals and tax penalties), see the results in a comparison table, and generate an actionable trade list.
-**FRs Covered:** FR5, FR6, FR7, FR8, FR9, FR10, FR11, FR12, FR13, FR14, FR15
-
-### Epic 3: Full Portfolio Onboarding
-**Goal:** To enable users to replace the demo data by importing their entire real-world portfolio using the "Magic" CSV import feature.
-**FRs Covered:** FR2, FR17
+- **Epic 1: Hello, Asset! & The Demo Portfolio (Completed)**
+- **Epic 2: Interactive Modeling, Comparison & Action (Next Up)**
+- **Epic 3: Action Plan & Execution (Future)**
 
 ---
 
-## Epic 1: "Hello, Asset!" & The Demo Portfolio
-**Goal:** To allow a new user to instantly understand the app's value by displaying a hardcoded, interactive 'Demo Portfolio' on the initial screen, proving out the end-to-end UI and persistence architecture.
+## Epic 1: Hello, Asset! & The Demo Portfolio
 
-### Story 1.1: Create and Persist a Hardcoded Demo Portfolio
-**As a** developer,
-**I want** a service that provides and saves a static, hardcoded 'Demo Portfolio' object on first load,
-**So that** we have a consistent and realistic dataset for the initial user experience.
-**Acceptance Criteria:**
-- **Given** the application loads for the first time, **When** the `getDemoPortfolio` function is called, **Then** it returns a valid `Portfolio` object containing at least 10 different `Asset` objects.
-- **Given** the application loads for the first time, **When** the database is checked, **Then** the Demo Portfolio is automatically saved into the encrypted database.
+**Status: Completed**
 
-### Story 1.2: Display the Demo Portfolio in a Simple UI
-**As a** user,
-**I want** to see the Demo Portfolio displayed in a clear and simple table when I first load the application,
-**So that** I can immediately understand what the application does.
+**Goal:** Establish the foundational data layer for the application, including secure local persistence, and provide an initial state by displaying a hardcoded demo portfolio to the user on first load.
+
+### Story 1.1: Setup Encrypted Persistence for Portfolio Data
+
+**As a** security-conscious user,
+**I want** my portfolio data to be stored securely and privately on my local device,
+**So that** I can use the application with confidence that my financial information is not exposed on the web.
+
 **Acceptance Criteria:**
-- **Given** the application is loaded, **When** the main page is displayed, **Then** a table containing the assets from the Demo Portfolio is visible.
-- **Given** the Demo Portfolio table is displayed, **When** I inspect the table, **Then** it contains columns for at least "Asset Ticker", "Quantity", and "Current Value".
-- **Given** data is being decrypted and retrieved from the database, **When** the page is loading, **Then** a simple loading indicator is displayed.
+
+- **Given** the application is loaded,
+- **When** portfolio data is created or modified,
+- **Then** the data is persisted to the browser's IndexedDB.
+- **And** all sensitive financial data within IndexedDB is encrypted using the Web Crypto API.
+- **And** key derivation is handled in a Web Worker to avoid blocking the UI.
+
+### Story 1.2: Display a Hardcoded Demo Portfolio on First Load
+
+**As a** new user,
+**I want** to see a meaningful example portfolio when I first open the application,
+**So that** I can immediately understand the tool's capabilities without having to input my own data first.
+
+**Acceptance Criteria:**
+
+- **Given** a new user opens the application for the first time,
+- **When** the main dashboard page loads,
+- **Then** a pre-defined demo portfolio is loaded from a local data source.
+- **And** the demo portfolio's assets, value, and breakdown are displayed in the UI.
 
 ---
 
 ## Epic 2: Interactive Modeling, Comparison & Action
-**Goal:** To allow a user to model a target allocation against the pre-loaded **Demo Portfolio**, run complex scenarios (including withdrawals and tax penalties), see the results in a comparison table, and generate an actionable trade list.
 
-### Story 2.1: Implement Core Scenario & Withdrawal Calculation Logic
-**As a** user,
-**I want** the system to accurately calculate the outcome of a financial scenario, including withdrawals and tax penalties, against my portfolio,
-**So that** I can trust the results of my modeling.
-**Acceptance Criteria:**
-- **Given** a portfolio and a scenario `{ type: 'market_change', value: -0.20 }`, **When** the calculation function is called, **Then** the result's `endingValue` is 20% less than the start value.
-- **Given** a portfolio and a scenario including `{ withdrawalAmount: 5000 }` and `isUnder59_5: true`, **When** the calculation is run, **Then** the result must contain a `penaltyAmount` of 500 and an `endingValue` reflecting both the withdrawal and the penalty.
-- **Given** a scenario with a withdrawal and `isUnder59_5: false`, **When** the calculation is run, **Then** the `penaltyAmount` must be 0.
-- **Given** the calculation logic, **When** it is tested, **Then** it must have at least 80% unit test coverage.
+**Status: Next Up**
 
-### Story 2.2: Create Target Allocation UI with Interactive Sliders
-**As a** user,
-**I want** to adjust my target portfolio allocation using interactive sliders,
-**So that** I can easily model different investment strategies.
-**Acceptance Criteria:**
-- **Given** the Target Allocation UI is displayed, **When** I move a slider for one asset, **Then** the "Unallocated/Cash" bucket percentage automatically adjusts.
-- **Given** the "Unallocated/Cash" bucket is at 0%, **When** I try to increase an asset's allocation, **Then** the slider movement is blocked.
+**Goal:** Enable the core user journey of importing a real portfolio, interactively modeling changes to it against economic scenarios, and clearly seeing the calculated impact of those changes.
 
-### Story 2.3: Connect UI to Calculation Logic and Display Results
-**As a** user,
-**I want** to click a button to run my scenario and see the results of my current and target portfolios in a side-by-side comparison table,
-**So that** I can easily evaluate the impact of my changes.
-**Acceptance Criteria:**
-- **Given** I have adjusted my target allocation, **When** I click the "Recalculate" button, **Then** the calculation function from Story 2.1 is called for both the current and target portfolios.
-- **Given** the calculation is complete, **When** the results are displayed, **Then** a table shows key metrics (e.g., 'Ending Value', 'Max Drawdown') for both portfolios.
-- **Given** the comparison table is displayed, **When** one portfolio outperforms the other, **Then** the better-performing cell is visually highlighted.
+### Story 2.1: Implement "Magic" CSV Import and Manual Portfolio Entry
 
-### Story 2.4: Visualize Scenario Outcomes in a Chart
-**As a** user,
-**I want** to see a chart that visually represents the performance of my current and target portfolios,
-**So that** I can intuitively grasp the scenario's impact.
-**Acceptance Criteria:**
-- **Given** scenario results are available, **When** the chart is displayed, **Then** it shows two distinct lines for the 'Current' and 'Target' portfolios using the Recharts library.
-- **Given** the chart is interactive, **When** I hover my mouse over a point on a line, **Then** a tooltip appears showing the specific value.
+**As a** user with an existing portfolio,
+**I want** to easily import my holdings from a Fidelity CSV file or enter them manually,
+**So that** I can quickly get my own data into the tool.
 
-### Story 2.5: Generate Interactive Action Plan
-**As a** user,
-**I want** to generate a clear, step-by-step interactive checklist based on my target allocation,
-**So that** I know exactly which trades to execute and can track my progress.
-**Acceptance Criteria:**
-- **Given** I have a target allocation, **When** I click "Generate Action Plan", **Then** a checklist of trades is displayed, grouped into "Step 1: Raise Cash" (Sells) and "Step 2: Invest" (Buys).
-- **Given** the action plan is an interactive checklist, **When** I check off an item, **Then** its state persists locally and remains checked on page reload.
+### Story 2.2: Implement Interactive Allocation Sliders and "Recalculate" a Scenario
 
-### Story 2.6: Meet Performance NFRs with a Web Worker
-**As a** user,
-**I want** the user interface to remain perfectly smooth and responsive, even while complex calculations are running,
-**So that** the application feels fast and professional.
-**Acceptance Criteria:**
-- **Given** a user clicks "Recalculate", **When** the calculation logic from Story 2.1 is executed, **Then** it runs on a separate Web Worker thread.
-- **Given** the calculation is running in the background, **When** the user interacts with other parts of the UI, **Then** all interactions respond in under 100ms.
-- **Given** the calculation is running, **When** the UI is waiting for a response, **Then** the chart and comparison table areas are overlaid with a "shimmer" loading animation.
-- **Given** the project documentation, **When** a benchmark is run, **Then** the average synchronous execution time is recorded for comparison against the asynchronous Web Worker implementation.
+**As a** user exploring options,
+**I want** to adjust my target asset allocation using interactive sliders and run a pre-built scenario calculation on demand,
+**So that** I can see how my changes affect the portfolio's performance.
+
+### Story 2.3: Implement Core Scenario Withdrawal Calculation Logic
+
+**As a** user planning for retirement,
+**I want** to include a cash withdrawal in my scenario and see the calculated tax penalties,
+**So that** I can understand the true cost of an early withdrawal.
+
+### Story 2.4: Display Scenario Results in a "Head-to-Head" Comparison View
+
+**As a** user making a decision,
+**I want** to see a clear, side-by-side comparison of my current portfolio versus my proposed scenario,
+**So that** I can easily evaluate the trade-offs.
 
 ---
 
-## Epic 3: Full Portfolio Onboarding
-**Goal:** To enable users to replace the demo data by importing their entire real-world portfolio using the "Magic" CSV import feature.
+## Epic 3: Action Plan & Execution
 
-### Story 3.1: Develop Client-Side CSV Parsing Logic
-**As a** developer,
-**I want** a robust, client-side parsing function that accepts raw text from a Fidelity CSV file and reliably extracts asset data,
-**So that** user data remains private and the import process is resilient.
-**Acceptance Criteria:**
-- **Given** raw CSV text is provided to the parser, **When** the parsing function executes, **Then** all processing occurs entirely on the client-side.
-- **Given** a row in the CSV text has an invalid format, **When** the text is parsed, **Then** the function flags that specific row as invalid but continues to parse the rest of the file.
+**Status: Future**
 
-### Story 3.2: Create Portfolio Import UI
-**As a** user,
-**I want** a simple interface to paste my CSV data, see a preview, and confirm the import,
-**So that** I can easily get my portfolio into the application.
-**Acceptance Criteria:**
-- **Given** I am on the import page, **When** I paste CSV data into a text area, **Then** a preview table immediately appears showing the successfully parsed assets.
-- **Given** the pasted CSV data contains invalid rows, **When** the preview is displayed, **Then** the invalid rows are visually highlighted in the original text area, with a tooltip explaining the error.
-- **Given** both valid and invalid rows were parsed, **When** I click the "Import" button, **Then** only the valid rows are imported.
+**Goal:** Bridge the gap from analysis to action by generating a concrete, executable trade list and allowing the user to track their progress.
 
-### Story 3.3: Replace Demo Data with Imported Portfolio
-**As a** user,
-**I want** the application to use my imported portfolio for all modeling and analysis after a successful import,
-**So that** the application reflects my actual holdings.
-**Acceptance Criteria:**
-- **Given** a user has successfully imported a new portfolio, **When** they navigate to the main dashboard, **Then** the UI displays the assets from their imported portfolio.
-- **Given** a user's portfolio is active, **When** the application is reloaded, **Then** the user's portfolio is loaded by default instead of the demo portfolio.
+### Story 3.1: Generate a "Smart Action Plan Checklist" from a modeled scenario
+
+**As a** user ready to act,
+**I want** the system to generate a clear list of buy and sell orders needed to achieve my proposed allocation,
+**So that** I know exactly what trades to make.
+
+### Story 3.2: Persist Checklist State and an "All Done" Celebration
+
+**As a** user executing trades,
+**I want** to check off items on my action plan and have that progress saved,
+**So that** I can track my rebalancing and feel a sense of accomplishment.

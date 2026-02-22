@@ -68,8 +68,8 @@ export function PassphraseDialog({ open, mode, onSubmit, error }: PassphraseDial
         <Box sx={{ pt: 1 }}>
           {mode === 'setup' ? (
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-              Create a passphrase to encrypt your portfolio data. This passphrase will be
-              required each time you access the application.
+              Create a passphrase to encrypt your portfolio data. This passphrase will be required
+              each time you access the application.
             </Typography>
           ) : (
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>

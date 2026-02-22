@@ -43,6 +43,7 @@ The target user is a sophisticated retail investor who wants quantitative decisi
 ### 1.1 Problem Statement
 
 Retail investors lack accessible tools to:
+
 - Quantify concentration risk in their portfolios
 - Stress-test allocations against historical and hypothetical scenarios
 - Compare rebalancing options with explicit risk/return tradeoffs
@@ -83,13 +84,13 @@ A web-based application that provides:
 
 ### 1.3 Design Principles
 
-| Principle | Implementation |
-|-----------|----------------|
-| **Transparency** | All calculations visible; no black boxes |
-| **Accessibility** | No finance PhD required to use |
-| **Actionability** | Outputs are executable trade lists |
+| Principle           | Implementation                           |
+| ------------------- | ---------------------------------------- |
+| **Transparency**    | All calculations visible; no black boxes |
+| **Accessibility**   | No finance PhD required to use           |
+| **Actionability**   | Outputs are executable trade lists       |
 | **Offline-capable** | Core functionality works without network |
-| **Privacy-first** | Portfolio data stays local by default |
+| **Privacy-first**   | Portfolio data stays local by default    |
 
 ---
 
@@ -98,9 +99,11 @@ A web-based application that provides:
 ### 2.1 Core User Stories
 
 #### US-001: Portfolio Input
+
 > As an investor, I want to input my current holdings so that the system can analyze my portfolio.
 
 **Acceptance Criteria:**
+
 - [ ] Manual entry: ticker, shares, cost basis
 - [ ] CSV import from Fidelity export format
 - [ ] Auto-fetch current prices for entered tickers
@@ -109,9 +112,11 @@ A web-based application that provides:
 - [ ] Flag concentration warnings (>10% single position, >30% single sector)
 
 #### US-002: Proposed Allocation
+
 > As an investor, I want to create a proposed allocation so that I can compare it to my current portfolio.
 
 **Acceptance Criteria:**
+
 - [ ] Slider or percentage input for each holding
 - [ ] Add new tickers to proposed allocation
 - [ ] Remove tickers from proposed allocation
@@ -120,9 +125,11 @@ A web-based application that provides:
 - [ ] Save multiple proposed allocations for comparison
 
 #### US-003: Scenario Simulation
+
 > As an investor, I want to simulate economic scenarios so that I can understand potential outcomes.
 
 **Acceptance Criteria:**
+
 - [ ] Pre-built scenarios (recession, tech crash, stagflation, bull market)
 - [ ] Custom scenario builder with asset class return inputs
 - [ ] Apply scenarios to both current and proposed allocations
@@ -130,18 +137,22 @@ A web-based application that provides:
 - [ ] Visualize portfolio trajectory over scenario duration
 
 #### US-004: Side-by-Side Comparison
+
 > As an investor, I want to compare my current and proposed portfolios across all scenarios so that I can make an informed decision.
 
 **Acceptance Criteria:**
+
 - [ ] Table view: rows = scenarios, columns = allocations
 - [ ] Highlight best/worst outcomes per scenario
 - [ ] Show risk-adjusted metrics (Sharpe-like ratio)
 - [ ] Export comparison to PDF/CSV
 
 #### US-005: Historical Backtest
+
 > As an investor, I want to see how my allocation would have performed historically so that I can validate my strategy.
 
 **Acceptance Criteria:**
+
 - [ ] Select date range (e.g., 2000-2025)
 - [ ] Apply allocation to historical data
 - [ ] Show growth chart with drawdown periods highlighted
@@ -149,9 +160,11 @@ A web-based application that provides:
 - [ ] Display key metrics: CAGR, max drawdown, Sharpe ratio
 
 #### US-006: Rebalancing Optimizer
+
 > As an investor, I want the system to suggest optimal trades so that I can efficiently reach my target allocation.
 
 **Acceptance Criteria:**
+
 - [ ] Input: current holdings, target allocation
 - [ ] Output: specific trades (buy/sell amounts)
 - [ ] Minimize number of trades option
@@ -160,14 +173,14 @@ A web-based application that provides:
 
 ### 2.2 Non-Functional Requirements
 
-| Requirement | Specification |
-|-------------|---------------|
-| **Performance** | Scenario calculations < 500ms for standard portfolio |
-| **Scalability** | Support portfolios up to 100 holdings |
-| **Availability** | Offline mode for core calculations |
-| **Data Freshness** | Price data < 24 hours old (EOD acceptable) |
-| **Browser Support** | Chrome, Firefox, Safari, Edge (latest 2 versions) |
-| **Mobile** | Responsive design; functional on tablet/phone |
+| Requirement         | Specification                                        |
+| ------------------- | ---------------------------------------------------- |
+| **Performance**     | Scenario calculations < 500ms for standard portfolio |
+| **Scalability**     | Support portfolios up to 100 holdings                |
+| **Availability**    | Offline mode for core calculations                   |
+| **Data Freshness**  | Price data < 24 hours old (EOD acceptable)           |
+| **Browser Support** | Chrome, Firefox, Safari, Edge (latest 2 versions)    |
+| **Mobile**          | Responsive design; functional on tablet/phone        |
 
 ---
 
@@ -179,25 +192,25 @@ A web-based application that provides:
 
 ```typescript
 interface Portfolio {
-  id: string;                    // UUID
-  name: string;                  // User-defined name
-  accountType: AccountType;      // IRA, ROTH_IRA, TAXABLE, etc.
-  holdings: Holding[];           // Array of positions
+  id: string; // UUID
+  name: string; // User-defined name
+  accountType: AccountType; // IRA, ROTH_IRA, TAXABLE, etc.
+  holdings: Holding[]; // Array of positions
   createdAt: Date;
   updatedAt: Date;
   metadata: {
-    broker: string;              // e.g., "Fidelity"
-    accountNumber?: string;      // Optional, for user reference
+    broker: string; // e.g., "Fidelity"
+    accountNumber?: string; // Optional, for user reference
   };
 }
 
 enum AccountType {
-  TRADITIONAL_IRA = "TRADITIONAL_IRA",
-  ROTH_IRA = "ROTH_IRA",
-  ROLLOVER_IRA = "ROLLOVER_IRA",
-  TAXABLE = "TAXABLE",
-  HSA = "HSA",
-  FOUR01K = "401K"
+  TRADITIONAL_IRA = 'TRADITIONAL_IRA',
+  ROTH_IRA = 'ROTH_IRA',
+  ROLLOVER_IRA = 'ROLLOVER_IRA',
+  TAXABLE = 'TAXABLE',
+  HSA = 'HSA',
+  FOUR01K = '401K',
 }
 ```
 
@@ -205,47 +218,47 @@ enum AccountType {
 
 ```typescript
 interface Holding {
-  id: string;                    // UUID
-  ticker: string;                // e.g., "FXAIX"
-  name: string;                  // e.g., "Fidelity 500 Index Fund"
-  shares: number;                // Number of shares/units
-  costBasis: number;             // Total cost basis in dollars
-  currentPrice: number;          // Current price per share
-  currentValue: number;          // shares * currentPrice
-  gainLoss: number;              // currentValue - costBasis
-  gainLossPercent: number;       // (gainLoss / costBasis) * 100
-  allocationPercent: number;     // % of total portfolio
-  assetClass: AssetClass;        // Classification
-  sector?: string;               // For equities
-  geography?: Geography;         // US, INTL_DEVELOPED, EMERGING
-  expenseRatio?: number;         // Annual expense ratio
+  id: string; // UUID
+  ticker: string; // e.g., "FXAIX"
+  name: string; // e.g., "Fidelity 500 Index Fund"
+  shares: number; // Number of shares/units
+  costBasis: number; // Total cost basis in dollars
+  currentPrice: number; // Current price per share
+  currentValue: number; // shares * currentPrice
+  gainLoss: number; // currentValue - costBasis
+  gainLossPercent: number; // (gainLoss / costBasis) * 100
+  allocationPercent: number; // % of total portfolio
+  assetClass: AssetClass; // Classification
+  sector?: string; // For equities
+  geography?: Geography; // US, INTL_DEVELOPED, EMERGING
+  expenseRatio?: number; // Annual expense ratio
 }
 
 enum AssetClass {
-  US_EQUITY_LARGE_GROWTH = "US_EQUITY_LARGE_GROWTH",
-  US_EQUITY_LARGE_VALUE = "US_EQUITY_LARGE_VALUE",
-  US_EQUITY_LARGE_BLEND = "US_EQUITY_LARGE_BLEND",
-  US_EQUITY_MID = "US_EQUITY_MID",
-  US_EQUITY_SMALL = "US_EQUITY_SMALL",
-  INTL_EQUITY_DEVELOPED = "INTL_EQUITY_DEVELOPED",
-  INTL_EQUITY_EMERGING = "INTL_EQUITY_EMERGING",
-  US_BOND_TOTAL = "US_BOND_TOTAL",
-  US_BOND_TREASURY = "US_BOND_TREASURY",
-  US_BOND_CORPORATE = "US_BOND_CORPORATE",
-  INTL_BOND = "INTL_BOND",
-  TIPS = "TIPS",
-  CASH = "CASH",
-  REAL_ESTATE = "REAL_ESTATE",
-  COMMODITIES = "COMMODITIES",
-  TARGET_DATE = "TARGET_DATE",
-  OTHER = "OTHER"
+  US_EQUITY_LARGE_GROWTH = 'US_EQUITY_LARGE_GROWTH',
+  US_EQUITY_LARGE_VALUE = 'US_EQUITY_LARGE_VALUE',
+  US_EQUITY_LARGE_BLEND = 'US_EQUITY_LARGE_BLEND',
+  US_EQUITY_MID = 'US_EQUITY_MID',
+  US_EQUITY_SMALL = 'US_EQUITY_SMALL',
+  INTL_EQUITY_DEVELOPED = 'INTL_EQUITY_DEVELOPED',
+  INTL_EQUITY_EMERGING = 'INTL_EQUITY_EMERGING',
+  US_BOND_TOTAL = 'US_BOND_TOTAL',
+  US_BOND_TREASURY = 'US_BOND_TREASURY',
+  US_BOND_CORPORATE = 'US_BOND_CORPORATE',
+  INTL_BOND = 'INTL_BOND',
+  TIPS = 'TIPS',
+  CASH = 'CASH',
+  REAL_ESTATE = 'REAL_ESTATE',
+  COMMODITIES = 'COMMODITIES',
+  TARGET_DATE = 'TARGET_DATE',
+  OTHER = 'OTHER',
 }
 
 enum Geography {
-  US = "US",
-  INTL_DEVELOPED = "INTL_DEVELOPED",
-  INTL_EMERGING = "INTL_EMERGING",
-  GLOBAL = "GLOBAL"
+  US = 'US',
+  INTL_DEVELOPED = 'INTL_DEVELOPED',
+  INTL_EMERGING = 'INTL_EMERGING',
+  GLOBAL = 'GLOBAL',
 }
 ```
 
@@ -254,35 +267,35 @@ enum Geography {
 ```typescript
 interface Allocation {
   id: string;
-  name: string;                  // e.g., "Current", "Conservative", "Aggressive"
-  isCurrentState: boolean;       // True if this represents actual holdings
+  name: string; // e.g., "Current", "Conservative", "Aggressive"
+  isCurrentState: boolean; // True if this represents actual holdings
   positions: AllocationPosition[];
-  totalValue: number;            // Sum of all position values
+  totalValue: number; // Sum of all position values
   metrics: AllocationMetrics;
   createdAt: Date;
 }
 
 interface AllocationPosition {
   ticker: string;
-  targetPercent: number;         // Target allocation percentage
-  currentValue: number;          // Current value in dollars
-  targetValue: number;           // Target value based on total portfolio
-  deltaValue: number;            // targetValue - currentValue
-  deltaShares: number;           // Shares to buy (positive) or sell (negative)
+  targetPercent: number; // Target allocation percentage
+  currentValue: number; // Current value in dollars
+  targetValue: number; // Target value based on total portfolio
+  deltaValue: number; // targetValue - currentValue
+  deltaShares: number; // Shares to buy (positive) or sell (negative)
 }
 
 interface AllocationMetrics {
   weightedExpenseRatio: number;
-  estimatedVolatility: number;   // Based on historical std dev
-  estimatedBeta: number;         // Weighted beta to S&P 500
-  mag7Exposure: number;          // Estimated Magnificent 7 exposure
+  estimatedVolatility: number; // Based on historical std dev
+  estimatedBeta: number; // Weighted beta to S&P 500
+  mag7Exposure: number; // Estimated Magnificent 7 exposure
   sectorConcentration: {
-    [sector: string]: number;    // Percentage by sector
+    [sector: string]: number; // Percentage by sector
   };
   geographicExposure: {
     [geography: string]: number; // Percentage by geography
   };
-  correlationToSP500: number;    // Weighted correlation
+  correlationToSP500: number; // Weighted correlation
 }
 ```
 
@@ -291,22 +304,23 @@ interface AllocationMetrics {
 ```typescript
 interface Scenario {
   id: string;
-  name: string;                  // e.g., "2022 Redux"
-  description: string;           // Detailed description
-  isBuiltIn: boolean;            // System-provided vs. user-created
-  duration: number;              // Duration in years
+  name: string; // e.g., "2022 Redux"
+  description: string; // Detailed description
+  isBuiltIn: boolean; // System-provided vs. user-created
+  duration: number; // Duration in years
   assetClassReturns: {
     [assetClass: string]: ScenarioReturn;
   };
-  correlationOverrides?: {       // Optional correlation changes
-    [pair: string]: number;      // e.g., "US_BOND_TOTAL:US_EQUITY_LARGE_BLEND": 0.3
+  correlationOverrides?: {
+    // Optional correlation changes
+    [pair: string]: number; // e.g., "US_BOND_TOTAL:US_EQUITY_LARGE_BLEND": 0.3
   };
 }
 
 interface ScenarioReturn {
-  annualReturn: number;          // Expected annual return (e.g., -0.25 for -25%)
-  volatility?: number;           // Optional volatility override
-  path?: "linear" | "front_loaded" | "back_loaded" | "v_shaped";
+  annualReturn: number; // Expected annual return (e.g., -0.25 for -25%)
+  volatility?: number; // Optional volatility override
+  path?: 'linear' | 'front_loaded' | 'back_loaded' | 'v_shaped';
 }
 ```
 
@@ -318,20 +332,20 @@ interface ScenarioResult {
   allocationId: string;
   startingValue: number;
   endingValue: number;
-  totalReturn: number;           // (ending - starting) / starting
-  annualizedReturn: number;      // CAGR
-  maxDrawdown: number;           // Maximum peak-to-trough decline
-  maxDrawdownDate?: Date;        // When max drawdown occurred
-  recoveryTime?: number;         // Months to recover from max drawdown
-  volatility: number;            // Realized volatility
-  sharpeRatio: number;           // (return - risk_free) / volatility
+  totalReturn: number; // (ending - starting) / starting
+  annualizedReturn: number; // CAGR
+  maxDrawdown: number; // Maximum peak-to-trough decline
+  maxDrawdownDate?: Date; // When max drawdown occurred
+  recoveryTime?: number; // Months to recover from max drawdown
+  volatility: number; // Realized volatility
+  sharpeRatio: number; // (return - risk_free) / volatility
   trajectory: TrajectoryPoint[]; // Monthly values for charting
 }
 
 interface TrajectoryPoint {
   date: Date;
   value: number;
-  drawdown: number;              // Current drawdown from peak
+  drawdown: number; // Current drawdown from peak
 }
 ```
 
@@ -348,16 +362,16 @@ interface Security {
   geography: Geography;
   expenseRatio?: number;
   inceptionDate?: Date;
-  issuer?: string;               // e.g., "Fidelity", "Vanguard"
-  
+  issuer?: string; // e.g., "Fidelity", "Vanguard"
+
   // Risk characteristics (historical)
-  historicalReturn: number;      // 10-year CAGR
-  historicalVolatility: number;  // 10-year std dev
-  beta: number;                  // Beta to S&P 500
+  historicalReturn: number; // 10-year CAGR
+  historicalVolatility: number; // 10-year std dev
+  beta: number; // Beta to S&P 500
   correlationToSP500: number;
-  
+
   // Estimated underlying exposures
-  mag7Exposure?: number;         // Estimated % in Magnificent 7
+  mag7Exposure?: number; // Estimated % in Magnificent 7
   topHoldings?: {
     ticker: string;
     weight: number;
@@ -370,52 +384,55 @@ interface Security {
 ```typescript
 const BUILT_IN_SCENARIOS: Scenario[] = [
   {
-    id: "2022_redux",
-    name: "2022 Redux",
-    description: "Tech correction with rising rates. Growth stocks down 30%, bonds down 13%, value relatively resilient.",
+    id: '2022_redux',
+    name: '2022 Redux',
+    description:
+      'Tech correction with rising rates. Growth stocks down 30%, bonds down 13%, value relatively resilient.',
     isBuiltIn: true,
     duration: 1,
     assetClassReturns: {
-      US_EQUITY_LARGE_GROWTH: { annualReturn: -0.30, path: "front_loaded" },
+      US_EQUITY_LARGE_GROWTH: { annualReturn: -0.3, path: 'front_loaded' },
       US_EQUITY_LARGE_VALUE: { annualReturn: -0.08 },
-      US_EQUITY_LARGE_BLEND: { annualReturn: -0.20 },
+      US_EQUITY_LARGE_BLEND: { annualReturn: -0.2 },
       US_EQUITY_SMALL: { annualReturn: -0.22 },
       INTL_EQUITY_DEVELOPED: { annualReturn: -0.15 },
       INTL_EQUITY_EMERGING: { annualReturn: -0.22 },
       US_BOND_TOTAL: { annualReturn: -0.13 },
       US_BOND_TREASURY: { annualReturn: -0.12 },
       CASH: { annualReturn: 0.02 },
-      TARGET_DATE: { annualReturn: -0.18 }
-    }
+      TARGET_DATE: { annualReturn: -0.18 },
+    },
   },
   {
-    id: "dot_com_2",
-    name: "Dot-Com 2.0",
-    description: "Magnificent 7 bubble bursts. Tech crashes 50%+, rotation to value and international.",
+    id: 'dot_com_2',
+    name: 'Dot-Com 2.0',
+    description:
+      'Magnificent 7 bubble bursts. Tech crashes 50%+, rotation to value and international.',
     isBuiltIn: true,
     duration: 3,
     assetClassReturns: {
-      US_EQUITY_LARGE_GROWTH: { annualReturn: -0.25, path: "front_loaded" }, // Compounds to ~58% loss
+      US_EQUITY_LARGE_GROWTH: { annualReturn: -0.25, path: 'front_loaded' }, // Compounds to ~58% loss
       US_EQUITY_LARGE_VALUE: { annualReturn: -0.05 },
       US_EQUITY_LARGE_BLEND: { annualReturn: -0.15 },
-      US_EQUITY_SMALL: { annualReturn: -0.10 },
+      US_EQUITY_SMALL: { annualReturn: -0.1 },
       INTL_EQUITY_DEVELOPED: { annualReturn: 0.02 },
-      INTL_EQUITY_EMERGING: { annualReturn: 0.00 },
+      INTL_EQUITY_EMERGING: { annualReturn: 0.0 },
       US_BOND_TOTAL: { annualReturn: 0.04 },
       US_BOND_TREASURY: { annualReturn: 0.05 },
       CASH: { annualReturn: 0.035 },
-      TARGET_DATE: { annualReturn: -0.10 }
-    }
+      TARGET_DATE: { annualReturn: -0.1 },
+    },
   },
   {
-    id: "stagflation",
-    name: "Stagflation",
-    description: "High inflation with recession. Equities down, bonds provide little protection, commodities surge.",
+    id: 'stagflation',
+    name: 'Stagflation',
+    description:
+      'High inflation with recession. Equities down, bonds provide little protection, commodities surge.',
     isBuiltIn: true,
     duration: 2,
     assetClassReturns: {
       US_EQUITY_LARGE_GROWTH: { annualReturn: -0.18 },
-      US_EQUITY_LARGE_VALUE: { annualReturn: -0.10 },
+      US_EQUITY_LARGE_VALUE: { annualReturn: -0.1 },
       US_EQUITY_LARGE_BLEND: { annualReturn: -0.14 },
       INTL_EQUITY_DEVELOPED: { annualReturn: -0.12 },
       US_BOND_TOTAL: { annualReturn: -0.03 },
@@ -423,69 +440,71 @@ const BUILT_IN_SCENARIOS: Scenario[] = [
       TIPS: { annualReturn: 0.02 },
       CASH: { annualReturn: 0.045 },
       COMMODITIES: { annualReturn: 0.15 },
-      TARGET_DATE: { annualReturn: -0.10 }
-    }
+      TARGET_DATE: { annualReturn: -0.1 },
+    },
   },
   {
-    id: "soft_landing",
-    name: "Soft Landing",
-    description: "Fed successfully controls inflation without recession. Moderate equity gains, bonds recover.",
+    id: 'soft_landing',
+    name: 'Soft Landing',
+    description:
+      'Fed successfully controls inflation without recession. Moderate equity gains, bonds recover.',
     isBuiltIn: true,
     duration: 2,
     assetClassReturns: {
       US_EQUITY_LARGE_GROWTH: { annualReturn: 0.12 },
-      US_EQUITY_LARGE_VALUE: { annualReturn: 0.10 },
+      US_EQUITY_LARGE_VALUE: { annualReturn: 0.1 },
       US_EQUITY_LARGE_BLEND: { annualReturn: 0.11 },
       US_EQUITY_SMALL: { annualReturn: 0.13 },
       INTL_EQUITY_DEVELOPED: { annualReturn: 0.09 },
-      INTL_EQUITY_EMERGING: { annualReturn: 0.10 },
+      INTL_EQUITY_EMERGING: { annualReturn: 0.1 },
       US_BOND_TOTAL: { annualReturn: 0.05 },
       US_BOND_TREASURY: { annualReturn: 0.045 },
       CASH: { annualReturn: 0.035 },
-      TARGET_DATE: { annualReturn: 0.09 }
-    }
+      TARGET_DATE: { annualReturn: 0.09 },
+    },
   },
   {
-    id: "deep_recession",
-    name: "Deep Recession",
-    description: "2008-style financial crisis. Equities crater, flight to quality, bonds rally.",
+    id: 'deep_recession',
+    name: 'Deep Recession',
+    description: '2008-style financial crisis. Equities crater, flight to quality, bonds rally.',
     isBuiltIn: true,
     duration: 2,
     assetClassReturns: {
-      US_EQUITY_LARGE_GROWTH: { annualReturn: -0.28, path: "front_loaded" },
+      US_EQUITY_LARGE_GROWTH: { annualReturn: -0.28, path: 'front_loaded' },
       US_EQUITY_LARGE_VALUE: { annualReturn: -0.25 },
       US_EQUITY_LARGE_BLEND: { annualReturn: -0.27 },
       US_EQUITY_SMALL: { annualReturn: -0.32 },
-      INTL_EQUITY_DEVELOPED: { annualReturn: -0.30 },
+      INTL_EQUITY_DEVELOPED: { annualReturn: -0.3 },
       INTL_EQUITY_EMERGING: { annualReturn: -0.35 },
       US_BOND_TOTAL: { annualReturn: 0.06 },
-      US_BOND_TREASURY: { annualReturn: 0.10 },
+      US_BOND_TREASURY: { annualReturn: 0.1 },
       US_BOND_CORPORATE: { annualReturn: -0.05 },
       CASH: { annualReturn: 0.02 },
-      TARGET_DATE: { annualReturn: -0.22 }
-    }
+      TARGET_DATE: { annualReturn: -0.22 },
+    },
   },
   {
-    id: "japan_scenario",
-    name: "Japan Scenario (Lost Decade)",
-    description: "Extended period of stagnation. Equities flat for a decade, low but positive bond returns.",
+    id: 'japan_scenario',
+    name: 'Japan Scenario (Lost Decade)',
+    description:
+      'Extended period of stagnation. Equities flat for a decade, low but positive bond returns.',
     isBuiltIn: true,
     duration: 10,
     assetClassReturns: {
       US_EQUITY_LARGE_GROWTH: { annualReturn: 0.01 },
       US_EQUITY_LARGE_VALUE: { annualReturn: 0.02 },
       US_EQUITY_LARGE_BLEND: { annualReturn: 0.015 },
-      INTL_EQUITY_DEVELOPED: { annualReturn: 0.00 },
+      INTL_EQUITY_DEVELOPED: { annualReturn: 0.0 },
       US_BOND_TOTAL: { annualReturn: 0.03 },
       US_BOND_TREASURY: { annualReturn: 0.025 },
       CASH: { annualReturn: 0.015 },
-      TARGET_DATE: { annualReturn: 0.02 }
-    }
+      TARGET_DATE: { annualReturn: 0.02 },
+    },
   },
   {
-    id: "ai_boom",
-    name: "AI Boom Continues",
-    description: "AI revolution drives sustained growth. Tech leads, broad participation.",
+    id: 'ai_boom',
+    name: 'AI Boom Continues',
+    description: 'AI revolution drives sustained growth. Tech leads, broad participation.',
     isBuiltIn: true,
     duration: 3,
     assetClassReturns: {
@@ -494,12 +513,12 @@ const BUILT_IN_SCENARIOS: Scenario[] = [
       US_EQUITY_LARGE_BLEND: { annualReturn: 0.13 },
       US_EQUITY_SMALL: { annualReturn: 0.12 },
       INTL_EQUITY_DEVELOPED: { annualReturn: 0.08 },
-      INTL_EQUITY_EMERGING: { annualReturn: 0.10 },
+      INTL_EQUITY_EMERGING: { annualReturn: 0.1 },
       US_BOND_TOTAL: { annualReturn: 0.035 },
       CASH: { annualReturn: 0.035 },
-      TARGET_DATE: { annualReturn: 0.11 }
-    }
-  }
+      TARGET_DATE: { annualReturn: 0.11 },
+    },
+  },
 ];
 ```
 
@@ -514,46 +533,49 @@ const BUILT_IN_SCENARIOS: Scenario[] = [
 ```typescript
 function analyzeConcentration(holdings: Holding[]): ConcentrationAnalysis {
   const totalValue = holdings.reduce((sum, h) => sum + h.currentValue, 0);
-  
+
   // Single position concentration
-  const positionConcentration = holdings.map(h => ({
+  const positionConcentration = holdings.map((h) => ({
     ticker: h.ticker,
     percent: (h.currentValue / totalValue) * 100,
-    isConcentrated: (h.currentValue / totalValue) > 0.10 // >10% warning
+    isConcentrated: h.currentValue / totalValue > 0.1, // >10% warning
   }));
-  
+
   // Sector concentration
   const sectorTotals: { [sector: string]: number } = {};
-  holdings.forEach(h => {
+  holdings.forEach((h) => {
     const sector = h.sector || 'Other';
     sectorTotals[sector] = (sectorTotals[sector] || 0) + h.currentValue;
   });
-  
+
   const sectorConcentration = Object.entries(sectorTotals).map(([sector, value]) => ({
     sector,
     percent: (value / totalValue) * 100,
-    isConcentrated: (value / totalValue) > 0.30 // >30% warning
+    isConcentrated: value / totalValue > 0.3, // >30% warning
   }));
-  
+
   // Estimated Magnificent 7 exposure
-  const mag7Exposure = holdings.reduce((sum, h) => {
-    const security = getSecurityData(h.ticker);
-    return sum + (h.currentValue * (security?.mag7Exposure || 0));
-  }, 0) / totalValue * 100;
-  
+  const mag7Exposure =
+    (holdings.reduce((sum, h) => {
+      const security = getSecurityData(h.ticker);
+      return sum + h.currentValue * (security?.mag7Exposure || 0);
+    }, 0) /
+      totalValue) *
+    100;
+
   return {
     positionConcentration,
     sectorConcentration,
     mag7Exposure,
     herfindahlIndex: calculateHerfindahl(holdings, totalValue),
-    effectivePositions: 1 / calculateHerfindahl(holdings, totalValue)
+    effectivePositions: 1 / calculateHerfindahl(holdings, totalValue),
   };
 }
 
 function calculateHerfindahl(holdings: Holding[], totalValue: number): number {
   return holdings.reduce((sum, h) => {
     const weight = h.currentValue / totalValue;
-    return sum + (weight * weight);
+    return sum + weight * weight;
   }, 0);
 }
 ```
@@ -562,9 +584,9 @@ function calculateHerfindahl(holdings: Holding[], totalValue: number): number {
 
 ```typescript
 function calculateCorrelationMatrix(holdings: Holding[]): CorrelationMatrix {
-  const tickers = holdings.map(h => h.ticker);
+  const tickers = holdings.map((h) => h.ticker);
   const matrix: number[][] = [];
-  
+
   for (let i = 0; i < tickers.length; i++) {
     matrix[i] = [];
     for (let j = 0; j < tickers.length; j++) {
@@ -575,12 +597,12 @@ function calculateCorrelationMatrix(holdings: Holding[]): CorrelationMatrix {
       }
     }
   }
-  
+
   return {
     tickers,
     matrix,
     averageCorrelation: calculateAverageOffDiagonal(matrix),
-    highCorrelationPairs: findHighCorrelationPairs(tickers, matrix, 0.8)
+    highCorrelationPairs: findHighCorrelationPairs(tickers, matrix, 0.8),
   };
 }
 ```
@@ -590,33 +612,30 @@ function calculateCorrelationMatrix(holdings: Holding[]): CorrelationMatrix {
 #### 4.2.1 Simple Scenario Application
 
 ```typescript
-function applyScenario(
-  allocation: Allocation,
-  scenario: Scenario
-): ScenarioResult {
+function applyScenario(allocation: Allocation, scenario: Scenario): ScenarioResult {
   const startingValue = allocation.totalValue;
   let currentValue = startingValue;
   let peakValue = startingValue;
   let maxDrawdown = 0;
   let maxDrawdownDate: Date | null = null;
   const trajectory: TrajectoryPoint[] = [];
-  
+
   const monthsInScenario = scenario.duration * 12;
   const startDate = new Date();
-  
+
   for (let month = 0; month <= monthsInScenario; month++) {
     // Calculate monthly return for each position
     let monthlyPortfolioReturn = 0;
-    
+
     for (const position of allocation.positions) {
       const security = getSecurityData(position.ticker);
       const assetClass = security?.assetClass || AssetClass.OTHER;
       const scenarioReturn = scenario.assetClassReturns[assetClass];
-      
+
       if (scenarioReturn) {
         // Convert annual return to monthly
-        const monthlyReturn = Math.pow(1 + scenarioReturn.annualReturn, 1/12) - 1;
-        
+        const monthlyReturn = Math.pow(1 + scenarioReturn.annualReturn, 1 / 12) - 1;
+
         // Apply path adjustment if specified
         const adjustedReturn = applyPathAdjustment(
           monthlyReturn,
@@ -624,16 +643,16 @@ function applyScenario(
           monthsInScenario,
           scenarioReturn.path
         );
-        
+
         // Weight by position
         const positionWeight = position.targetPercent / 100;
         monthlyPortfolioReturn += adjustedReturn * positionWeight;
       }
     }
-    
+
     // Update portfolio value
-    currentValue *= (1 + monthlyPortfolioReturn);
-    
+    currentValue *= 1 + monthlyPortfolioReturn;
+
     // Track peak and drawdown
     if (currentValue > peakValue) {
       peakValue = currentValue;
@@ -644,20 +663,20 @@ function applyScenario(
       maxDrawdownDate = new Date(startDate);
       maxDrawdownDate.setMonth(maxDrawdownDate.getMonth() + month);
     }
-    
+
     // Record trajectory point
     const pointDate = new Date(startDate);
     pointDate.setMonth(pointDate.getMonth() + month);
     trajectory.push({
       date: pointDate,
       value: currentValue,
-      drawdown: currentDrawdown
+      drawdown: currentDrawdown,
     });
   }
-  
+
   const totalReturn = (currentValue - startingValue) / startingValue;
   const annualizedReturn = Math.pow(1 + totalReturn, 1 / scenario.duration) - 1;
-  
+
   return {
     scenarioId: scenario.id,
     allocationId: allocation.id,
@@ -670,7 +689,7 @@ function applyScenario(
     recoveryTime: calculateRecoveryTime(trajectory, peakValue),
     volatility: calculateVolatility(trajectory),
     sharpeRatio: (annualizedReturn - 0.035) / calculateVolatility(trajectory), // 3.5% risk-free
-    trajectory
+    trajectory,
   };
 }
 
@@ -681,27 +700,27 @@ function applyPathAdjustment(
   path?: string
 ): number {
   if (!path || path === 'linear') return baseReturn;
-  
+
   const progress = currentMonth / totalMonths;
-  
+
   switch (path) {
     case 'front_loaded':
       // Most of the decline happens in first third
       if (progress < 0.33) return baseReturn * 2;
       if (progress < 0.66) return baseReturn * 0.8;
       return baseReturn * 0.2;
-      
+
     case 'back_loaded':
       // Most of the move happens in last third
       if (progress < 0.33) return baseReturn * 0.2;
       if (progress < 0.66) return baseReturn * 0.8;
       return baseReturn * 2;
-      
+
     case 'v_shaped':
       // Down then up
       if (progress < 0.5) return baseReturn;
       return -baseReturn * 0.7; // Partial recovery
-      
+
     default:
       return baseReturn;
   }
@@ -712,8 +731,8 @@ function applyPathAdjustment(
 
 ```typescript
 interface MonteCarloConfig {
-  numSimulations: number;        // Default: 1000
-  yearsToSimulate: number;       // Default: 10
+  numSimulations: number; // Default: 1000
+  yearsToSimulate: number; // Default: 10
   confidenceIntervals: number[]; // Default: [0.05, 0.25, 0.50, 0.75, 0.95]
 }
 
@@ -724,11 +743,11 @@ interface MonteCarloResult {
       annualizedReturn: number;
     };
   };
-  probabilityOfLoss: number;     // % of simulations ending below starting value
-  probabilityOfGain: number;     // % of simulations ending above starting value
+  probabilityOfLoss: number; // % of simulations ending below starting value
+  probabilityOfGain: number; // % of simulations ending above starting value
   averageEndingValue: number;
   medianEndingValue: number;
-  allSimulations: number[];      // Array of ending values for histogram
+  allSimulations: number[]; // Array of ending values for histogram
 }
 
 function runMonteCarloSimulation(
@@ -736,14 +755,14 @@ function runMonteCarloSimulation(
   config: MonteCarloConfig
 ): MonteCarloResult {
   const endingValues: number[] = [];
-  
+
   for (let sim = 0; sim < config.numSimulations; sim++) {
     let value = allocation.totalValue;
-    
+
     for (let year = 0; year < config.yearsToSimulate; year++) {
       // Generate correlated random returns for each asset class
       const returns = generateCorrelatedReturns(allocation);
-      
+
       // Apply returns to portfolio
       let annualReturn = 0;
       for (const position of allocation.positions) {
@@ -752,56 +771,57 @@ function runMonteCarloSimulation(
         const positionReturn = returns[assetClass] || 0;
         annualReturn += (position.targetPercent / 100) * positionReturn;
       }
-      
-      value *= (1 + annualReturn);
+
+      value *= 1 + annualReturn;
     }
-    
+
     endingValues.push(value);
   }
-  
+
   // Sort for percentile calculations
   endingValues.sort((a, b) => a - b);
-  
+
   const percentileOutcomes: { [p: number]: any } = {};
   for (const p of config.confidenceIntervals) {
     const index = Math.floor(p * config.numSimulations);
     const endingValue = endingValues[index];
     percentileOutcomes[p] = {
       endingValue,
-      annualizedReturn: Math.pow(endingValue / allocation.totalValue, 1 / config.yearsToSimulate) - 1
+      annualizedReturn:
+        Math.pow(endingValue / allocation.totalValue, 1 / config.yearsToSimulate) - 1,
     };
   }
-  
+
   const startingValue = allocation.totalValue;
-  
+
   return {
     percentileOutcomes,
-    probabilityOfLoss: endingValues.filter(v => v < startingValue).length / config.numSimulations,
-    probabilityOfGain: endingValues.filter(v => v > startingValue).length / config.numSimulations,
+    probabilityOfLoss: endingValues.filter((v) => v < startingValue).length / config.numSimulations,
+    probabilityOfGain: endingValues.filter((v) => v > startingValue).length / config.numSimulations,
     averageEndingValue: endingValues.reduce((a, b) => a + b, 0) / config.numSimulations,
     medianEndingValue: endingValues[Math.floor(config.numSimulations / 2)],
-    allSimulations: endingValues
+    allSimulations: endingValues,
   };
 }
 
 function generateCorrelatedReturns(allocation: Allocation): { [assetClass: string]: number } {
   // Use Cholesky decomposition to generate correlated normal random variables
   // Then transform to asset class returns using historical mean/std dev
-  
+
   // Simplified implementation using asset class statistics
   const returns: { [assetClass: string]: number } = {};
-  
+
   const assetClassStats = getAssetClassStatistics();
-  
+
   for (const [assetClass, stats] of Object.entries(assetClassStats)) {
     // Generate random return from normal distribution
     const z = generateStandardNormal();
-    returns[assetClass] = stats.mean + (z * stats.stdDev);
+    returns[assetClass] = stats.mean + z * stats.stdDev;
   }
-  
+
   // Apply correlation adjustments (simplified)
   // Full implementation would use correlation matrix and Cholesky decomposition
-  
+
   return returns;
 }
 
@@ -835,7 +855,7 @@ interface BacktestResult {
   volatility: number;
   sharpeRatio: number;
   sortinoRatio: number;
-  calmarRatio: number;        // CAGR / max drawdown
+  calmarRatio: number; // CAGR / max drawdown
   trajectory: TrajectoryPoint[];
   yearlyReturns: { year: number; return: number }[];
   drawdownPeriods: DrawdownPeriod[];
@@ -858,69 +878,66 @@ async function runBacktest(
 ): Promise<BacktestResult> {
   // Fetch historical price data for all holdings
   const priceData = await fetchHistoricalPrices(
-    allocation.positions.map(p => p.ticker),
+    allocation.positions.map((p) => p.ticker),
     config.startDate,
     config.endDate
   );
-  
+
   let portfolioValue = allocation.totalValue;
   let peakValue = portfolioValue;
   let maxDrawdown = 0;
   let maxDrawdownStart: Date | null = null;
   let maxDrawdownEnd: Date | null = null;
-  
+
   const trajectory: TrajectoryPoint[] = [];
   const drawdownPeriods: DrawdownPeriod[] = [];
   let currentDrawdownPeriod: DrawdownPeriod | null = null;
-  
+
   // Initialize position values based on allocation
-  let positions = allocation.positions.map(p => ({
+  let positions = allocation.positions.map((p) => ({
     ...p,
-    value: allocation.totalValue * (p.targetPercent / 100)
+    value: allocation.totalValue * (p.targetPercent / 100),
   }));
-  
+
   // Get all unique dates in price data
   const dates = getUniqueDates(priceData);
   let lastRebalanceDate = dates[0];
-  
+
   for (const date of dates) {
     // Update position values based on price changes
     for (const position of positions) {
       const previousPrice = getPriceOnDate(priceData, position.ticker, previousTradingDay(date));
       const currentPrice = getPriceOnDate(priceData, position.ticker, date);
-      
+
       if (previousPrice && currentPrice) {
         const dailyReturn = (currentPrice - previousPrice) / previousPrice;
-        position.value *= (1 + dailyReturn);
+        position.value *= 1 + dailyReturn;
       }
     }
-    
+
     // Calculate total portfolio value
     portfolioValue = positions.reduce((sum, p) => sum + p.value, 0);
-    
+
     // Check for rebalancing
     if (shouldRebalance(date, lastRebalanceDate, config.rebalanceFrequency)) {
       positions = rebalancePositions(positions, allocation, portfolioValue);
       lastRebalanceDate = date;
     }
-    
+
     // Track peak and drawdown
     if (portfolioValue > peakValue) {
       peakValue = portfolioValue;
-      
+
       // Close any open drawdown period
       if (currentDrawdownPeriod && !currentDrawdownPeriod.recovered) {
         currentDrawdownPeriod.endDate = date;
         currentDrawdownPeriod.recovered = true;
-        currentDrawdownPeriod.durationMonths = monthsBetween(
-          currentDrawdownPeriod.startDate,
-          date
-        );
+        currentDrawdownPeriod.durationMonths = monthsBetween(currentDrawdownPeriod.startDate, date);
       }
     }
-    
+
     const currentDrawdown = (peakValue - portfolioValue) / peakValue;
-    
+
     // Start new drawdown period if needed
     if (currentDrawdown > 0.05 && !currentDrawdownPeriod) {
       currentDrawdownPeriod = {
@@ -930,32 +947,32 @@ async function runBacktest(
         troughValue: portfolioValue,
         drawdownPercent: currentDrawdown,
         durationMonths: 0,
-        recovered: false
+        recovered: false,
       };
     }
-    
+
     // Update current drawdown period
     if (currentDrawdownPeriod && portfolioValue < currentDrawdownPeriod.troughValue) {
       currentDrawdownPeriod.troughDate = date;
       currentDrawdownPeriod.troughValue = portfolioValue;
       currentDrawdownPeriod.drawdownPercent = currentDrawdown;
     }
-    
+
     // Track max drawdown
     if (currentDrawdown > maxDrawdown) {
       maxDrawdown = currentDrawdown;
       maxDrawdownStart = currentDrawdownPeriod?.startDate || date;
       maxDrawdownEnd = date;
     }
-    
+
     // Record trajectory
     trajectory.push({
       date,
       value: portfolioValue,
-      drawdown: currentDrawdown
+      drawdown: currentDrawdown,
     });
   }
-  
+
   // Close any open drawdown period
   if (currentDrawdownPeriod && !currentDrawdownPeriod.recovered) {
     currentDrawdownPeriod.durationMonths = monthsBetween(
@@ -964,7 +981,7 @@ async function runBacktest(
     );
     drawdownPeriods.push(currentDrawdownPeriod);
   }
-  
+
   // Calculate final metrics
   const startingValue = allocation.totalValue;
   const totalReturn = (portfolioValue - startingValue) / startingValue;
@@ -972,7 +989,7 @@ async function runBacktest(
   const annualizedReturn = Math.pow(1 + totalReturn, 1 / years) - 1;
   const volatility = calculateAnnualizedVolatility(trajectory);
   const riskFreeRate = 0.02; // Approximate historical average
-  
+
   return {
     startingValue,
     endingValue: portfolioValue,
@@ -987,7 +1004,7 @@ async function runBacktest(
     calmarRatio: annualizedReturn / maxDrawdown,
     trajectory,
     yearlyReturns: calculateYearlyReturns(trajectory),
-    drawdownPeriods
+    drawdownPeriods,
   };
 }
 ```
@@ -1034,11 +1051,11 @@ function generateTradeList(
 ): TradeList {
   const totalValue = currentHoldings.reduce((sum, h) => sum + h.currentValue, 0);
   const trades: Trade[] = [];
-  
+
   // Build map of current holdings
   const currentMap = new Map<string, Holding>();
-  currentHoldings.forEach(h => currentMap.set(h.ticker, h));
-  
+  currentHoldings.forEach((h) => currentMap.set(h.ticker, h));
+
   // Calculate trades needed for each target position
   for (const target of targetAllocation.positions) {
     const current = currentMap.get(target.ticker);
@@ -1046,16 +1063,17 @@ function generateTradeList(
     const currentAllocation = (currentValue / totalValue) * 100;
     const targetValue = totalValue * (target.targetPercent / 100);
     const deltaValue = targetValue - currentValue;
-    
+
     // Apply threshold
-    const thresholdValue = (options.threshold || 0) * totalValue / 100;
+    const thresholdValue = ((options.threshold || 0) * totalValue) / 100;
     if (Math.abs(deltaValue) < thresholdValue) continue;
-    
-    const currentPrice = current?.currentPrice || target.currentValue / target.targetPercent * 100;
+
+    const currentPrice =
+      current?.currentPrice || (target.currentValue / target.targetPercent) * 100;
     const shares = Math.round(deltaValue / currentPrice);
-    
+
     if (shares === 0) continue;
-    
+
     trades.push({
       action: shares > 0 ? 'BUY' : 'SELL',
       ticker: target.ticker,
@@ -1064,13 +1082,13 @@ function generateTradeList(
       estimatedPrice: currentPrice,
       estimatedValue: Math.abs(deltaValue),
       currentAllocation,
-      targetAllocation: target.targetPercent
+      targetAllocation: target.targetPercent,
     });
-    
+
     // Remove from current map (to track positions to close)
     currentMap.delete(target.ticker);
   }
-  
+
   // Handle positions to close entirely (in current but not in target)
   for (const [ticker, holding] of currentMap) {
     if (holding.currentValue > 0) {
@@ -1082,34 +1100,34 @@ function generateTradeList(
         estimatedPrice: holding.currentPrice,
         estimatedValue: holding.currentValue,
         currentAllocation: (holding.currentValue / totalValue) * 100,
-        targetAllocation: 0
+        targetAllocation: 0,
       });
     }
   }
-  
+
   // Sort: sells first (to generate cash), then buys
   trades.sort((a, b) => {
     if (a.action === 'SELL' && b.action === 'BUY') return -1;
     if (a.action === 'BUY' && b.action === 'SELL') return 1;
     return b.estimatedValue - a.estimatedValue; // Largest trades first
   });
-  
+
   // Calculate summary
   const totalSells = trades
-    .filter(t => t.action === 'SELL')
+    .filter((t) => t.action === 'SELL')
     .reduce((sum, t) => sum + t.estimatedValue, 0);
   const totalBuys = trades
-    .filter(t => t.action === 'BUY')
+    .filter((t) => t.action === 'BUY')
     .reduce((sum, t) => sum + t.estimatedValue, 0);
-  
+
   return {
     trades,
     summary: {
       totalBuys,
       totalSells,
       netCashFlow: totalSells - totalBuys,
-      estimatedCommissions: 0 // Most brokers are commission-free now
-    }
+      estimatedCommissions: 0, // Most brokers are commission-free now
+    },
   };
 }
 ```
@@ -1165,25 +1183,25 @@ function generateTradeList(
 
 ### 5.2 Technology Stack
 
-| Layer | Technology | Rationale |
-|-------|------------|-----------|
-| **Frontend Framework** | React 18+ with TypeScript | Industry standard, large ecosystem |
-| **State Management** | Zustand | Lightweight, TypeScript-native |
-| **Styling** | Tailwind CSS | Utility-first, rapid development |
-| **Charts** | Recharts or Victory | React-native, declarative |
-| **Data Tables** | TanStack Table | Headless, highly customizable |
-| **Build Tool** | Vite | Fast development, optimized builds |
-| **Testing** | Vitest + React Testing Library | Fast, Jest-compatible |
-| **Backend (optional)** | Node.js or Deno | JavaScript ecosystem alignment |
-| **Database (optional)** | Supabase or PlanetScale | Managed, scalable |
-| **Hosting** | Vercel or Cloudflare Pages | Edge deployment, easy CI/CD |
+| Layer                   | Technology                     | Rationale                          |
+| ----------------------- | ------------------------------ | ---------------------------------- |
+| **Frontend Framework**  | React 18+ with TypeScript      | Industry standard, large ecosystem |
+| **State Management**    | Zustand                        | Lightweight, TypeScript-native     |
+| **Styling**             | Tailwind CSS                   | Utility-first, rapid development   |
+| **Charts**              | Recharts or Victory            | React-native, declarative          |
+| **Data Tables**         | TanStack Table                 | Headless, highly customizable      |
+| **Build Tool**          | Vite                           | Fast development, optimized builds |
+| **Testing**             | Vitest + React Testing Library | Fast, Jest-compatible              |
+| **Backend (optional)**  | Node.js or Deno                | JavaScript ecosystem alignment     |
+| **Database (optional)** | Supabase or PlanetScale        | Managed, scalable                  |
+| **Hosting**             | Vercel or Cloudflare Pages     | Edge deployment, easy CI/CD        |
 
 ### 5.3 Offline-First Architecture
 
 ```typescript
 // Service Worker registration
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js').then(registration => {
+  navigator.serviceWorker.register('/sw.js').then((registration) => {
     console.log('SW registered:', registration);
   });
 }
@@ -1220,13 +1238,13 @@ const db = await openDB<PortfolioDBSchema>('portfolio-modeler', 1, {
   upgrade(db) {
     const portfolioStore = db.createObjectStore('portfolios', { keyPath: 'id' });
     portfolioStore.createIndex('by-updated', 'updatedAt');
-    
+
     const allocationStore = db.createObjectStore('allocations', { keyPath: 'id' });
     allocationStore.createIndex('by-portfolio', 'portfolioId');
-    
+
     db.createObjectStore('scenarios', { keyPath: 'id' });
     db.createObjectStore('priceCache', { keyPath: 'ticker' });
-  }
+  },
 });
 ```
 
@@ -1344,10 +1362,30 @@ const columns = [
   { id: 'currentPrice', header: 'Price', sortable: true, align: 'right', format: 'currency' },
   { id: 'currentValue', header: 'Value', sortable: true, align: 'right', format: 'currency' },
   { id: 'costBasis', header: 'Cost Basis', sortable: true, align: 'right', format: 'currency' },
-  { id: 'gainLoss', header: 'Gain/Loss', sortable: true, align: 'right', format: 'currency', colorCode: true },
-  { id: 'gainLossPercent', header: 'Gain/Loss %', sortable: true, align: 'right', format: 'percent', colorCode: true },
-  { id: 'allocationPercent', header: 'Allocation', sortable: true, align: 'right', format: 'percent' },
-  { id: 'actions', header: '', width: 80 }
+  {
+    id: 'gainLoss',
+    header: 'Gain/Loss',
+    sortable: true,
+    align: 'right',
+    format: 'currency',
+    colorCode: true,
+  },
+  {
+    id: 'gainLossPercent',
+    header: 'Gain/Loss %',
+    sortable: true,
+    align: 'right',
+    format: 'percent',
+    colorCode: true,
+  },
+  {
+    id: 'allocationPercent',
+    header: 'Allocation',
+    sortable: true,
+    align: 'right',
+    format: 'percent',
+  },
+  { id: 'actions', header: '', width: 80 },
 ];
 ```
 
@@ -1566,17 +1604,18 @@ Content-Type: application/json
 
 ### 8.1 Price Data Providers
 
-| Provider | Cost | Features | Rate Limits | Recommendation |
-|----------|------|----------|-------------|----------------|
-| **Yahoo Finance (unofficial)** | Free | EOD, historical, basic info | ~2000/hour | Good for MVP |
-| **Alpha Vantage** | Free tier available | EOD, intraday, fundamentals | 5/min (free) | Good free option |
-| **Polygon.io** | $29/mo starter | Real-time, historical | Generous | Production ready |
-| **IEX Cloud** | Pay-as-you-go | Real-time, historical, fundamentals | Token-based | Flexible pricing |
-| **Twelve Data** | Free tier available | Real-time, historical | 8/min (free) | Good API design |
+| Provider                       | Cost                | Features                            | Rate Limits  | Recommendation   |
+| ------------------------------ | ------------------- | ----------------------------------- | ------------ | ---------------- |
+| **Yahoo Finance (unofficial)** | Free                | EOD, historical, basic info         | ~2000/hour   | Good for MVP     |
+| **Alpha Vantage**              | Free tier available | EOD, intraday, fundamentals         | 5/min (free) | Good free option |
+| **Polygon.io**                 | $29/mo starter      | Real-time, historical               | Generous     | Production ready |
+| **IEX Cloud**                  | Pay-as-you-go       | Real-time, historical, fundamentals | Token-based  | Flexible pricing |
+| **Twelve Data**                | Free tier available | Real-time, historical               | 8/min (free) | Good API design  |
 
 ### 8.2 Fund Data Requirements
 
 For mutual funds (like Fidelity funds), we need:
+
 - Current NAV
 - Historical NAV
 - Expense ratio
@@ -1585,6 +1624,7 @@ For mutual funds (like Fidelity funds), we need:
 - Category (Morningstar-style)
 
 **Sources:**
+
 - Morningstar API (paid)
 - Fund company websites (scraping, terms vary)
 - SEC EDGAR (13F filings for holdings)
@@ -1597,8 +1637,8 @@ Pre-populate security master with common Fidelity funds:
 ```typescript
 const FIDELITY_FUNDS: Security[] = [
   {
-    ticker: "FXAIX",
-    name: "Fidelity 500 Index Fund",
+    ticker: 'FXAIX',
+    name: 'Fidelity 500 Index Fund',
     assetClass: AssetClass.US_EQUITY_LARGE_BLEND,
     geography: Geography.US,
     expenseRatio: 0.015,
@@ -1606,23 +1646,23 @@ const FIDELITY_FUNDS: Security[] = [
     historicalVolatility: 0.18,
     beta: 1.0,
     correlationToSP500: 1.0,
-    mag7Exposure: 0.32
+    mag7Exposure: 0.32,
   },
   {
-    ticker: "FCNTX",
-    name: "Fidelity Contrafund",
+    ticker: 'FCNTX',
+    name: 'Fidelity Contrafund',
     assetClass: AssetClass.US_EQUITY_LARGE_GROWTH,
     geography: Geography.US,
     expenseRatio: 0.39,
     historicalReturn: 0.125,
-    historicalVolatility: 0.20,
+    historicalVolatility: 0.2,
     beta: 1.05,
     correlationToSP500: 0.95,
-    mag7Exposure: 0.45
+    mag7Exposure: 0.45,
   },
   {
-    ticker: "FOCPX",
-    name: "Fidelity OTC Portfolio",
+    ticker: 'FOCPX',
+    name: 'Fidelity OTC Portfolio',
     assetClass: AssetClass.US_EQUITY_LARGE_GROWTH,
     geography: Geography.US,
     expenseRatio: 0.72,
@@ -1630,23 +1670,23 @@ const FIDELITY_FUNDS: Security[] = [
     historicalVolatility: 0.24,
     beta: 1.15,
     correlationToSP500: 0.92,
-    mag7Exposure: 0.50
+    mag7Exposure: 0.5,
   },
   {
-    ticker: "FIGRX",
-    name: "Fidelity International Discovery",
+    ticker: 'FIGRX',
+    name: 'Fidelity International Discovery',
     assetClass: AssetClass.INTL_EQUITY_DEVELOPED,
     geography: Geography.INTL_DEVELOPED,
-    expenseRatio: 0.70,
+    expenseRatio: 0.7,
     historicalReturn: 0.08,
     historicalVolatility: 0.19,
     beta: 0.85,
     correlationToSP500: 0.75,
-    mag7Exposure: 0.05
+    mag7Exposure: 0.05,
   },
   {
-    ticker: "FFFFX",
-    name: "Fidelity Freedom 2040",
+    ticker: 'FFFFX',
+    name: 'Fidelity Freedom 2040',
     assetClass: AssetClass.TARGET_DATE,
     geography: Geography.GLOBAL,
     expenseRatio: 0.59,
@@ -1654,19 +1694,19 @@ const FIDELITY_FUNDS: Security[] = [
     historicalVolatility: 0.14,
     beta: 0.85,
     correlationToSP500: 0.88,
-    mag7Exposure: 0.25
+    mag7Exposure: 0.25,
   },
   {
-    ticker: "FXNAX",
-    name: "Fidelity U.S. Bond Index Fund",
+    ticker: 'FXNAX',
+    name: 'Fidelity U.S. Bond Index Fund',
     assetClass: AssetClass.US_BOND_TOTAL,
     geography: Geography.US,
     expenseRatio: 0.025,
     historicalReturn: 0.04,
     historicalVolatility: 0.06,
     beta: -0.05,
-    correlationToSP500: -0.10,
-    mag7Exposure: 0
+    correlationToSP500: -0.1,
+    mag7Exposure: 0,
   },
   // ... additional funds
 ];
@@ -1686,9 +1726,9 @@ Parser implementation:
 interface FidelityCSVRow {
   'Account Number': string;
   'Account Name': string;
-  'Symbol': string;
-  'Description': string;
-  'Quantity': string;
+  Symbol: string;
+  Description: string;
+  Quantity: string;
   'Last Price': string;
   'Current Value': string;
   'Total Gain/Loss Dollar': string;
@@ -1700,10 +1740,10 @@ interface FidelityCSVRow {
 
 function parseFidelityCSV(csvContent: string): Holding[] {
   const rows = parseCSV<FidelityCSVRow>(csvContent);
-  
+
   return rows
-    .filter(row => row['Symbol'] && row['Symbol'] !== 'Pending Activity')
-    .map(row => ({
+    .filter((row) => row['Symbol'] && row['Symbol'] !== 'Pending Activity')
+    .map((row) => ({
       id: generateId(),
       ticker: row['Symbol'].replace('**', ''), // Remove asterisks
       name: row['Description'],
@@ -1716,7 +1756,7 @@ function parseFidelityCSV(csvContent: string): Holding[] {
       allocationPercent: parsePercent(row['Percent Of Account']),
       assetClass: lookupAssetClass(row['Symbol']),
       sector: undefined, // Would need additional lookup
-      geography: lookupGeography(row['Symbol'])
+      geography: lookupGeography(row['Symbol']),
     }));
 }
 
@@ -1752,17 +1792,20 @@ function parsePercent(value: string): number {
 ```
 
 **Pros:**
+
 - Zero hosting cost
 - Maximum privacy (no data leaves browser)
 - Simple deployment
 - Works offline
 
 **Cons:**
+
 - Limited historical data (free API rate limits)
 - No cross-device sync
 - Price data may be stale
 
 **Deploy:**
+
 ```bash
 npm run build
 vercel deploy --prod
@@ -1798,12 +1841,14 @@ vercel deploy --prod
 ```
 
 **Pros:**
+
 - Better price data (server-side API keys, caching)
 - Still low cost (serverless, ~$0-5/month)
 - Privacy preserved (portfolio data stays local)
 - Can add features incrementally
 
 **Cons:**
+
 - Slightly more complexity
 - Requires API key management
 
@@ -1839,12 +1884,14 @@ vercel deploy --prod
 ```
 
 **Pros:**
+
 - Cross-device sync
 - Collaboration/sharing
 - Comprehensive historical data
 - Advanced features possible
 
 **Cons:**
+
 - Higher cost (~$20-50/month)
 - More complex ops
 - Privacy considerations
@@ -1855,13 +1902,13 @@ vercel deploy --prod
 
 ### 10.1 Data Privacy
 
-| Data Type | Sensitivity | Storage Approach |
-|-----------|-------------|------------------|
-| Portfolio holdings | High | Local storage only (default) |
-| Account numbers | High | Never store; strip from imports |
-| Custom scenarios | Low | Local or cloud (user choice) |
-| Price data | Public | Cache freely |
-| User preferences | Low | Local storage |
+| Data Type          | Sensitivity | Storage Approach                |
+| ------------------ | ----------- | ------------------------------- |
+| Portfolio holdings | High        | Local storage only (default)    |
+| Account numbers    | High        | Never store; strip from imports |
+| Custom scenarios   | Low         | Local or cloud (user choice)    |
+| Price data         | Public      | Cache freely                    |
+| User preferences   | Low         | Local storage                   |
 
 ### 10.2 Authentication (if backend)
 
@@ -1897,7 +1944,7 @@ const csp = {
   'img-src': ["'self'", 'data:', 'https:'],
   'connect-src': ["'self'", 'https://api.example.com'],
   'font-src': ["'self'"],
-  'frame-ancestors': ["'none'"]
+  'frame-ancestors': ["'none'"],
 };
 
 // Never store actual credentials
@@ -1911,24 +1958,24 @@ const csp = {
 
 ### Phase 2 (Post-MVP)
 
-| Feature | Description | Effort |
-|---------|-------------|--------|
-| **Tax-Loss Harvesting** | Identify harvesting opportunities in taxable accounts | Medium |
-| **Dividend Projections** | Estimate forward dividend income | Low |
-| **Factor Analysis** | Breakdown by value/growth/size/quality factors | Medium |
-| **ESG Scoring** | Environmental/Social/Governance metrics | Low |
-| **Benchmark Comparison** | Compare to standard benchmarks (60/40, etc.) | Low |
+| Feature                  | Description                                           | Effort |
+| ------------------------ | ----------------------------------------------------- | ------ |
+| **Tax-Loss Harvesting**  | Identify harvesting opportunities in taxable accounts | Medium |
+| **Dividend Projections** | Estimate forward dividend income                      | Low    |
+| **Factor Analysis**      | Breakdown by value/growth/size/quality factors        | Medium |
+| **ESG Scoring**          | Environmental/Social/Governance metrics               | Low    |
+| **Benchmark Comparison** | Compare to standard benchmarks (60/40, etc.)          | Low    |
 
 ### Phase 3 (Advanced)
 
-| Feature | Description | Effort |
-|---------|-------------|--------|
-| **AI Recommendations** | LLM-powered allocation suggestions | High |
-| **Options Overlays** | Model covered calls, protective puts | High |
+| Feature                     | Description                          | Effort |
+| --------------------------- | ------------------------------------ | ------ |
+| **AI Recommendations**      | LLM-powered allocation suggestions   | High   |
+| **Options Overlays**        | Model covered calls, protective puts | High   |
 | **Real Estate Integration** | Include property values in net worth | Medium |
-| **Social/Sharing** | Share allocations with community | Medium |
-| **Automated Rebalancing** | Connect to brokerage for execution | High |
-| **Mobile App** | React Native implementation | High |
+| **Social/Sharing**          | Share allocations with community     | Medium |
+| **Automated Rebalancing**   | Connect to brokerage for execution   | High   |
+| **Mobile App**              | React Native implementation          | High   |
 
 ### Technical Debt Considerations
 
@@ -1945,28 +1992,28 @@ const csp = {
 
 ### Appendix A: Glossary
 
-| Term | Definition |
-|------|------------|
-| **CAGR** | Compound Annual Growth Rate |
-| **Drawdown** | Peak-to-trough decline in portfolio value |
-| **Sharpe Ratio** | Risk-adjusted return: (return - risk-free) / volatility |
-| **Beta** | Measure of volatility relative to market benchmark |
-| **Mag 7** | Magnificent Seven: AAPL, MSFT, GOOGL, AMZN, NVDA, META, TSLA |
-| **CAPE** | Cyclically Adjusted Price-to-Earnings (Shiller P/E) |
-| **Monte Carlo** | Simulation using random sampling |
+| Term             | Definition                                                   |
+| ---------------- | ------------------------------------------------------------ |
+| **CAGR**         | Compound Annual Growth Rate                                  |
+| **Drawdown**     | Peak-to-trough decline in portfolio value                    |
+| **Sharpe Ratio** | Risk-adjusted return: (return - risk-free) / volatility      |
+| **Beta**         | Measure of volatility relative to market benchmark           |
+| **Mag 7**        | Magnificent Seven: AAPL, MSFT, GOOGL, AMZN, NVDA, META, TSLA |
+| **CAPE**         | Cyclically Adjusted Price-to-Earnings (Shiller P/E)          |
+| **Monte Carlo**  | Simulation using random sampling                             |
 
 ### Appendix B: Asset Class Return Assumptions
 
-| Asset Class | Expected Return | Std Dev | Source |
-|-------------|-----------------|---------|--------|
-| US Large Cap Growth | 8.5% | 22% | Historical + CAPE adjustment |
-| US Large Cap Value | 7.5% | 18% | Historical |
-| US Large Cap Blend | 7.0% | 18% | Current CAPE implies lower |
-| International Developed | 6.5% | 19% | More attractive valuations |
-| Emerging Markets | 7.5% | 24% | Higher risk/reward |
-| US Aggregate Bonds | 4.5% | 6% | Current yield |
-| US Treasury | 4.0% | 5% | Current yield |
-| Cash/Money Market | 3.5% | 0.5% | Current rates |
+| Asset Class             | Expected Return | Std Dev | Source                       |
+| ----------------------- | --------------- | ------- | ---------------------------- |
+| US Large Cap Growth     | 8.5%            | 22%     | Historical + CAPE adjustment |
+| US Large Cap Value      | 7.5%            | 18%     | Historical                   |
+| US Large Cap Blend      | 7.0%            | 18%     | Current CAPE implies lower   |
+| International Developed | 6.5%            | 19%     | More attractive valuations   |
+| Emerging Markets        | 7.5%            | 24%     | Higher risk/reward           |
+| US Aggregate Bonds      | 4.5%            | 6%      | Current yield                |
+| US Treasury             | 4.0%            | 5%      | Current yield                |
+| Cash/Money Market       | 3.5%            | 0.5%    | Current rates                |
 
 ### Appendix C: Correlation Matrix (Historical)
 
@@ -1982,24 +2029,24 @@ Cash          0.00   0.00   0.00   0.00  0.20   1.00
 
 ### Appendix D: Development Timeline Estimate
 
-| Phase | Duration | Deliverables |
-|-------|----------|--------------|
-| **Phase 0: Setup** | 1 week | Project scaffolding, CI/CD, dev environment |
-| **Phase 1: Core Input** | 2 weeks | Portfolio input, holdings management, CSV import |
-| **Phase 2: Allocations** | 2 weeks | Allocation builder, trade generation |
-| **Phase 3: Scenarios** | 3 weeks | Scenario engine, simulation, charts |
-| **Phase 4: Comparison** | 2 weeks | Dashboard, export, polish |
-| **Phase 5: Testing** | 2 weeks | E2E tests, bug fixes, performance |
-| **Total MVP** | ~12 weeks | Full feature set |
+| Phase                    | Duration  | Deliverables                                     |
+| ------------------------ | --------- | ------------------------------------------------ |
+| **Phase 0: Setup**       | 1 week    | Project scaffolding, CI/CD, dev environment      |
+| **Phase 1: Core Input**  | 2 weeks   | Portfolio input, holdings management, CSV import |
+| **Phase 2: Allocations** | 2 weeks   | Allocation builder, trade generation             |
+| **Phase 3: Scenarios**   | 3 weeks   | Scenario engine, simulation, charts              |
+| **Phase 4: Comparison**  | 2 weeks   | Dashboard, export, polish                        |
+| **Phase 5: Testing**     | 2 weeks   | E2E tests, bug fixes, performance                |
+| **Total MVP**            | ~12 weeks | Full feature set                                 |
 
 ---
 
 ## Document History
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | 2025-12-22 | Financial Advisor Mode | Initial draft |
+| Version | Date       | Author                 | Changes       |
+| ------- | ---------- | ---------------------- | ------------- |
+| 1.0     | 2025-12-22 | Financial Advisor Mode | Initial draft |
 
 ---
 
-*End of Architecture Document*
+_End of Architecture Document_

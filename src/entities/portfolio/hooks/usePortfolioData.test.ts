@@ -1,4 +1,3 @@
-
 import { renderHook, waitFor } from '@testing-library/react';
 import { usePortfolioData } from './usePortfolioData';
 import { retrieveAllEncrypted } from '@/shared/lib/db';
@@ -56,7 +55,9 @@ describe('usePortfolioData', () => {
     });
 
     expect(result.current.portfolio).toBeNull();
-    expect(result.current.error).toBe('No portfolio found. Please ensure the demo portfolio has been initialized.');
+    expect(result.current.error).toBe(
+      'No portfolio found. Please ensure the demo portfolio has been initialized.'
+    );
   });
 
   it('should return an error on fetch failure', async () => {

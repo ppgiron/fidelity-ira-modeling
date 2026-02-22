@@ -3,12 +3,7 @@
  */
 
 import { describe, it, expect, beforeAll } from 'vitest';
-import {
-  encrypt,
-  decrypt,
-  validatePassphrase,
-  isCryptoSupported,
-} from './encryption';
+import { encrypt, decrypt, validatePassphrase, isCryptoSupported } from './encryption';
 
 describe('Encryption Utilities', () => {
   beforeAll(() => {

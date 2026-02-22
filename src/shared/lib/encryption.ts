@@ -21,9 +21,11 @@ export interface EncryptedData {
  * Check if Web Crypto API is supported
  */
 export function isCryptoSupported(): boolean {
-  return typeof window !== 'undefined' &&
-         window.crypto !== undefined &&
-         window.crypto.subtle !== undefined;
+  return (
+    typeof window !== 'undefined' &&
+    window.crypto !== undefined &&
+    window.crypto.subtle !== undefined
+  );
 }
 
 /**
@@ -109,10 +111,7 @@ async function deriveKeyWithWorker(
   salt: Uint8Array<ArrayBuffer>
 ): Promise<CryptoKey> {
   return new Promise((resolve, reject) => {
-    const worker = new Worker(
-      new URL('./crypto.worker.ts', import.meta.url),
-      { type: 'module' }
-    );
+    const worker = new Worker(new URL('./crypto.worker.ts', import.meta.url), { type: 'module' });
 
     worker.onmessage = async (event: MessageEvent) => {
       const { type, keyData, error } = event.data;
@@ -208,10 +207,7 @@ export async function encrypt(data: string, passphrase: string): Promise<Encrypt
 /**
  * Decrypt data using AES-GCM
  */
-export async function decrypt(
-  encryptedData: EncryptedData,
-  passphrase: string
-): Promise<string> {
+export async function decrypt(encryptedData: EncryptedData, passphrase: string): Promise<string> {
   if (!isCryptoSupported()) {
     throw new Error('Web Crypto API is not supported in this browser');
   }

@@ -94,8 +94,7 @@ function AppProvider({ children }: AppProviderProps) {
         setPassphraseError(undefined);
       }
     } catch (_error) {
-      const errorMessage =
-        _error instanceof Error ? _error.message : 'Failed to set passphrase';
+      const errorMessage = _error instanceof Error ? _error.message : 'Failed to set passphrase';
       setPassphraseError(errorMessage);
       setIsAuthenticated(false);
     }
@@ -111,8 +110,8 @@ function AppProvider({ children }: AppProviderProps) {
               Browser Not Supported
             </Typography>
             <Typography variant="body2">
-              Your browser does not support the Web Crypto API required for secure data
-              encryption. Please use a modern browser like Chrome, Firefox, Safari, or Edge.
+              Your browser does not support the Web Crypto API required for secure data encryption.
+              Please use a modern browser like Chrome, Firefox, Safari, or Edge.
             </Typography>
           </Alert>
         </Box>

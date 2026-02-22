@@ -42,10 +42,10 @@ development_status:
   epic-1: in-progress
   1-1-create-and-persist-a-hardcoded-demo-portfolio: done
   1-2-display-the-demo-portfolio-in-a-simple-ui: done
-  epic-1-retrospective: optional
+  epic-1-retrospective: done
 
-  epic-2: backlog
-  2-1-implement-core-scenario-withdrawal-calculation-logic: backlog
+  epic-2: in-progress
+  2-1-implement-core-scenario-withdrawal-calculation-logic: ready-for-dev
   2-2-create-target-allocation-ui-with-interactive-sliders: backlog
   2-3-connect-ui-to-calculation-logic-and-display-results: backlog
   2-4-visualize-scenario-outcomes-in-a-chart: backlog
